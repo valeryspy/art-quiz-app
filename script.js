@@ -25,8 +25,8 @@ class ArtQuiz {
             console.log('Starting data load...');
             
             const [artworksResponse, artistsResponse] = await Promise.all([
-                fetch('http://localhost:8000/api/artworks'),
-                fetch('http://localhost:8000/api/artists')
+                fetch('/api/artworks'),
+                fetch('/api/artists')
             ]);
             
             if (!artworksResponse.ok || !artistsResponse.ok) {
