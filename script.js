@@ -34,8 +34,11 @@ class ArtQuiz {
             console.log('Objects response status:', objectsResponse.status);
             console.log('Images response status:', imagesResponse.status);
             
-            if (!objectsResponse.ok || !imagesResponse.ok) {
-                throw new Error('Failed to fetch CSV files');
+            if (!objectsResponse.ok) {
+                throw new Error(`Failed to load objects CSV: ${objectsResponse.status} ${objectsResponse.statusText}`);
+            }
+            if (!imagesResponse.ok) {
+                throw new Error(`Failed to load images CSV: ${imagesResponse.status} ${imagesResponse.statusText}`);
             }
             
             const objectsText = await objectsResponse.text();
@@ -162,8 +165,15 @@ class ArtQuiz {
         document.getElementById('loading').style.display = 'none';
         document.getElementById('quiz').style.display = 'block';
 
-        // Display artwork
-        document.getElementById('artwork-image').src = artwork.imageUrl;
+        // Display artwork with error handling
+        const artworkImage = document.getElementById('artwork-image');
+        artworkImage.onerror = () => {
+            console.error('Failed to load image:', artwork.imageUrl);
+            document.getElementById('loading').textContent = `Image failed to load: ${artwork.title}`;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('quiz').style.display = 'none';
+        };
+        artworkImage.src = artwork.imageUrl;
         document.getElementById('artwork-info').textContent = artwork.title || 'Untitled';
         document.getElementById('artwork-medium').textContent = artwork.medium || '';
 
@@ -281,7 +291,12 @@ class ArtQuiz {
 
         const artwork = this.artworks[this.currentArtworkIndex];
         
-        document.getElementById('browse-image').src = artwork.imageUrl;
+        const browseImage = document.getElementById('browse-image');
+        browseImage.onerror = () => {
+            console.error('Failed to load browse image:', artwork.imageUrl);
+            browseImage.alt = `Image failed to load: ${artwork.title}`;
+        };
+        browseImage.src = artwork.imageUrl;
         document.getElementById('browse-title').textContent = artwork.title || 'Untitled';
         document.getElementById('browse-artist').textContent = `Artist: ${artwork.attribution}`;
         document.getElementById('browse-year').textContent = `Year: ${artwork.year || artwork.displaydate || 'Unknown'}`;
