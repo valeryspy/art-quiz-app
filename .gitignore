@@ -1,6 +1,8 @@
 # Large data files
 *.csv
 
+notes.md
+
 # Python
 __pycache__/
 *.py[cod]

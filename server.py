@@ -28,5 +28,10 @@ def get_artists():
     artists = artworks_df['attribution'].dropna().unique().tolist()
     return jsonify(artists)
 
+@app.route('/api/categories')
+def get_categories():
+    categories = artworks_df['classification'].dropna().unique().tolist()
+    return jsonify(['All'] + categories)
+
 if __name__ == '__main__':
     app.run(debug=True, port=7860, host='0.0.0.0')

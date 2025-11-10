@@ -242,6 +242,56 @@ h1 {
     font-size: 14px;
 }
 
+/* Category Selection */
+#category-selection {
+    text-align: center;
+    padding: 40px 0;
+}
+
+#category-selection h2 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+#category-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+#category-buttons button {
+    padding: 15px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #f8f9fa;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+#category-buttons button:hover {
+    background: #007bff;
+    color: white;
+    transform: translateY(-2px);
+}
+
+#category-back-btn {
+    padding: 12px 30px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+#category-back-btn:hover {
+    background: #5a6268;
+}
+
 /* Browse Mode */
 #browse-container {
     text-align: center;

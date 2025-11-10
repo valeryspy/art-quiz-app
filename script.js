@@ -3,7 +3,10 @@ class ArtQuiz {
         this.score = 0;
         this.currentQuestion = null;
         this.artworks = [];
+        this.filteredArtworks = [];
         this.artists = [];
+        this.categories = [];
+        this.selectedCategory = 'All';
         this.fiftyFiftyUsed = false;
         this.mode = null;
         this.currentArtworkIndex = 0;
@@ -42,15 +45,27 @@ class ArtQuiz {
                 imageUrl: `${artwork.iiifurl}/full/!400,400/0/default.jpg`
             }));
             
+            this.filterArtworks();
+            
             console.log(`Loaded ${this.artworks.length} artworks and ${this.artists.length} artists`);
             
-            if (this.artworks.length === 0) {
-                document.getElementById('loading').textContent = 'No artwork found';
+            if (this.filteredArtworks.length === 0) {
+                document.getElementById('loading').textContent = 'No artwork found for this category';
                 return;
             }
         } catch (error) {
             console.error('Error loading data:', error);
             document.getElementById('loading').textContent = 'Error loading data: ' + error.message;
+        }
+    }
+    
+    filterArtworks() {
+        if (this.selectedCategory === 'All') {
+            this.filteredArtworks = this.artworks;
+        } else {
+            this.filteredArtworks = this.artworks.filter(artwork => 
+                artwork.classification === this.selectedCategory
+            );
         }
     }
 
@@ -107,13 +122,13 @@ class ArtQuiz {
     }
 
     generateQuestion() {
-        if (this.artworks.length === 0) {
+        if (this.filteredArtworks.length === 0) {
             document.getElementById('loading').textContent = 'No artworks available. Please refresh the page.';
             return;
         }
 
         // Select random artwork
-        const randomArtwork = this.artworks[Math.floor(Math.random() * this.artworks.length)];
+        const randomArtwork = this.filteredArtworks[Math.floor(Math.random() * this.filteredArtworks.length)];
         console.log(`Selected artwork: ${randomArtwork.title} by ${randomArtwork.attribution}`);
         const correctArtist = randomArtwork.attribution;
 
@@ -261,12 +276,12 @@ class ArtQuiz {
     }
 
     showArtwork() {
-        if (this.artworks.length === 0) {
+        if (this.filteredArtworks.length === 0) {
             document.getElementById('loading').textContent = 'No artworks available.';
             return;
         }
 
-        const artwork = this.artworks[this.currentArtworkIndex];
+        const artwork = this.filteredArtworks[this.currentArtworkIndex];
         
         const browseImage = document.getElementById('browse-image');
         browseImage.onerror = () => {
@@ -283,30 +298,64 @@ class ArtQuiz {
     }
 
     nextArtwork() {
-        this.currentArtworkIndex = (this.currentArtworkIndex + 1) % this.artworks.length;
+        this.currentArtworkIndex = (this.currentArtworkIndex + 1) % this.filteredArtworks.length;
         this.showArtwork();
     }
 }
 
-// Global functions for mode selection
+// Global functions for mode and category selection
 let quiz;
+let selectedMode;
 
-function startQuizMode() {
+function selectMode(mode) {
+    selectedMode = mode;
     document.getElementById('mode-selection').style.display = 'none';
-    document.getElementById('quiz-container').style.display = 'block';
-    quiz = new ArtQuiz();
-    quiz.init('quiz');
+    document.getElementById('category-selection').style.display = 'block';
+    loadCategories();
 }
 
-function startBrowseMode() {
-    document.getElementById('mode-selection').style.display = 'none';
+async function loadCategories() {
+    try {
+        const response = await fetch('/api/categories');
+        const categories = await response.json();
+        
+        const buttonsContainer = document.getElementById('category-buttons');
+        buttonsContainer.innerHTML = '';
+        
+        categories.forEach(category => {
+            const button = document.createElement('button');
+            button.textContent = category;
+            button.onclick = () => startGame(category);
+            buttonsContainer.appendChild(button);
+        });
+    } catch (error) {
+        console.error('Error loading categories:', error);
+    }
+}
+
+function startGame(category) {
+    document.getElementById('category-selection').style.display = 'none';
+    
     quiz = new ArtQuiz();
-    quiz.init('browse');
+    quiz.selectedCategory = category;
+    
+    if (selectedMode === 'quiz') {
+        document.getElementById('quiz-container').style.display = 'block';
+        quiz.init('quiz');
+    } else {
+        quiz.init('browse');
+    }
+}
+
+function backToModeSelection() {
+    document.getElementById('category-selection').style.display = 'none';
+    document.getElementById('mode-selection').style.display = 'block';
 }
 
 function backToMenu() {
     document.getElementById('quiz-container').style.display = 'none';
     document.getElementById('browse-container').style.display = 'none';
+    document.getElementById('category-selection').style.display = 'none';
     document.getElementById('mode-selection').style.display = 'block';
     quiz = null;
 }

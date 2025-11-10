@@ -14,13 +14,20 @@
         <div id="mode-selection">
             <h2>Choose Game Mode</h2>
             <div id="mode-buttons">
-                <button id="quiz-mode-btn" onclick="startQuizMode()">Quiz Mode</button>
-                <button id="browse-mode-btn" onclick="startBrowseMode()">Browse Mode</button>
+                <button id="quiz-mode-btn" onclick="selectMode('quiz')">Quiz Mode</button>
+                <button id="browse-mode-btn" onclick="selectMode('browse')">Browse Mode</button>
             </div>
             <div id="mode-descriptions">
                 <p><strong>Quiz Mode:</strong> Guess the artist from the artwork</p>
                 <p><strong>Browse Mode:</strong> View artworks with all information displayed</p>
             </div>
+        </div>
+        
+        <!-- Category Selection -->
+        <div id="category-selection" style="display: none;">
+            <h2>Choose Category</h2>
+            <div id="category-buttons"></div>
+            <button id="category-back-btn" onclick="backToModeSelection()">Back</button>
         </div>
         
         <!-- Quiz Mode -->
