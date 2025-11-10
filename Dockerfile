@@ -7,8 +7,8 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN wget -O objects.csv https://raw.githubusercontent.com/NationalGalleryOfArt/opendata/main/data/objects.csv
-RUN wget -O published_images.csv https://raw.githubusercontent.com/NationalGalleryOfArt/opendata/main/data/published_images.csv
+RUN python -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/NationalGalleryOfArt/opendata/main/data/objects.csv', 'objects.csv')"
+RUN python -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/NationalGalleryOfArt/opendata/main/data/published_images.csv', 'published_images.csv')"
 RUN python process_data.py
 
 EXPOSE 7860
