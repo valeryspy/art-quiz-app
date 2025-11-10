@@ -24,68 +24,32 @@ class ArtQuiz {
             document.getElementById('loading').textContent = 'Loading NGA collection...';
             console.log('Starting data load...');
             
-            // Load objects and published images
-            console.log('Fetching CSV files...');
-            const [objectsResponse, imagesResponse] = await Promise.all([
-                fetch('objects.csv'),
-                fetch('published_images.csv')
+            const [artworksResponse, artistsResponse] = await Promise.all([
+                fetch('http://localhost:8000/api/artworks'),
+                fetch('http://localhost:8000/api/artists')
             ]);
             
-            console.log('Objects response status:', objectsResponse.status);
-            console.log('Images response status:', imagesResponse.status);
-            
-            if (!objectsResponse.ok) {
-                throw new Error(`Failed to load objects CSV: ${objectsResponse.status} ${objectsResponse.statusText}`);
-            }
-            if (!imagesResponse.ok) {
-                throw new Error(`Failed to load images CSV: ${imagesResponse.status} ${imagesResponse.statusText}`);
+            if (!artworksResponse.ok || !artistsResponse.ok) {
+                throw new Error('Failed to load data from server');
             }
             
-            const objectsText = await objectsResponse.text();
-            const imagesText = await imagesResponse.text();
+            this.artworks = await artworksResponse.json();
+            this.artists = await artistsResponse.json();
             
-            console.log('Objects CSV length:', objectsText.length);
-            console.log('Images CSV length:', imagesText.length);
-            
-            const objects = await this.parseCSV(objectsText);
-            const images = await this.parseCSV(imagesText);
-            
-            console.log(`Parsed ${objects.length} objects`);
-            console.log(`Parsed ${images.length} images`);
-            
-            // Create image lookup by object ID
-            const imageMap = {};
-            images.forEach(img => {
-                if (img.depictstmsobjectid && img.iiifurl) {
-                    imageMap[img.depictstmsobjectid] = img.iiifurl;
-                }
-            });
-            
-            console.log(`Found ${Object.keys(imageMap).length} images with valid IIIF URLs`);
-            
-            // Filter objects with images and attribution - require working images
-            this.artworks = objects.filter(artwork => 
-                artwork.attribution && 
-                artwork.attribution.trim() !== '' &&
-                artwork.attribution.trim() !== 'null' &&
-                artwork.title &&
-                artwork.objectid &&
-                imageMap[artwork.objectid]
-            ).map(artwork => ({
+            // Add imageUrl for display
+            this.artworks = this.artworks.map(artwork => ({
                 ...artwork,
-                imageUrl: `${imageMap[artwork.objectid]}/full/!400,400/0/default.jpg`
+                imageUrl: `${artwork.iiifurl}/full/!400,400/0/default.jpg`
             }));
-
-            this.artists = [...new Set(this.artworks.map(artwork => artwork.attribution.trim()))];
             
-            console.log(`Final result: ${this.artworks.length} artworks with images and ${this.artists.length} artists`);
+            console.log(`Loaded ${this.artworks.length} artworks and ${this.artists.length} artists`);
             
             if (this.artworks.length === 0) {
                 document.getElementById('loading').textContent = 'No artwork found';
                 return;
             }
         } catch (error) {
-            console.error('Error loading NGA data:', error);
+            console.error('Error loading data:', error);
             document.getElementById('loading').textContent = 'Error loading data: ' + error.message;
         }
     }

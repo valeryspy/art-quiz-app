@@ -16,6 +16,8 @@ result = merged[['iiifurl', 'iiifthumburl', 'objectid', 'title', 'attribution', 
 result = result.dropna(subset=['iiifurl', 'objectid', 'title', 'attribution'])
 result = result[result['attribution'].str.strip() != '']
 
+# Drop all rows with any null/NaN values
+result = result.dropna()
+
 # Save to new CSV
 result.to_csv('artworks.csv', index=False)
-print(f"Created artworks.csv with {len(result)} rows")
