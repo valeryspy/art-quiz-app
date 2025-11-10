@@ -27,8 +27,8 @@ class ArtQuiz {
             // Load objects and published images
             console.log('Fetching CSV files...');
             const [objectsResponse, imagesResponse] = await Promise.all([
-                fetch('https://raw.githubusercontent.com/NationalGalleryOfArt/opendata/main/data/objects.csv'),
-                fetch('https://raw.githubusercontent.com/NationalGalleryOfArt/opendata/main/data/published_images.csv')
+                fetch('objects.csv'),
+                fetch('published_images.csv')
             ]);
             
             console.log('Objects response status:', objectsResponse.status);
@@ -218,7 +218,7 @@ class ArtQuiz {
 
     showYearHint() {
         const { artwork } = this.currentQuestion;
-        const year = artwork.year || artwork.displaydate || 'Unknown';
+        const year = artwork.beginyear || 'Unknown';
         
         // Remove existing hint if any
         const existingHint = document.getElementById('year-hint');
@@ -312,7 +312,7 @@ class ArtQuiz {
         browseImage.src = artwork.imageUrl;
         document.getElementById('browse-title').textContent = artwork.title || 'Untitled';
         document.getElementById('browse-artist').textContent = `Artist: ${artwork.attribution}`;
-        document.getElementById('browse-year').textContent = `Year: ${artwork.year || artwork.displaydate || 'Unknown'}`;
+        document.getElementById('browse-year').textContent = `Year: ${artwork.beginyear || 'Unknown'}`;
         document.getElementById('browse-medium').textContent = `Medium: ${artwork.medium || 'Unknown'}`;
         
         document.getElementById('browse-container').style.display = 'block';
