@@ -47,8 +47,8 @@ class ArtQuiz {
             console.log('Objects CSV length:', objectsText.length);
             console.log('Images CSV length:', imagesText.length);
             
-            const objects = this.parseCSV(objectsText);
-            const images = this.parseCSV(imagesText);
+            const objects = await this.parseCSV(objectsText);
+            const images = await this.parseCSV(imagesText);
             
             console.log(`Parsed ${objects.length} objects`);
             console.log(`Parsed ${images.length} images`);
@@ -90,19 +90,32 @@ class ArtQuiz {
         }
     }
 
-    parseCSV(csvText) {
+    async parseCSV(csvText) {
         const lines = csvText.split('\n');
         const headers = lines[0].split(',');
         const artworks = [];
+        const maxRows = Math.min(lines.length, 200000);
+        const chunkSize = 500;
         
-        for (let i = 1; i < lines.length && i < 200000; i++) {
-            const values = this.parseCSVLine(lines[i]);
-            if (values.length === headers.length) {
-                const artwork = {};
-                headers.forEach((header, index) => {
-                    artwork[header] = values[index];
-                });
-                artworks.push(artwork);
+        for (let i = 1; i < maxRows; i += chunkSize) {
+            const endIndex = Math.min(i + chunkSize, maxRows);
+            
+            // Process chunk
+            for (let j = i; j < endIndex; j++) {
+                const values = this.parseCSVLine(lines[j]);
+                if (values.length === headers.length) {
+                    const artwork = {};
+                    headers.forEach((header, index) => {
+                        artwork[header] = values[index];
+                    });
+                    artworks.push(artwork);
+                }
+            }
+            
+            // Force garbage collection and yield control
+            if (i % 2000 === 1) {
+                await new Promise(resolve => setTimeout(resolve, 10));
+                if (window.gc) window.gc(); // Force GC if available
             }
         }
         
