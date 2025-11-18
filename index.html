@@ -10,16 +10,8 @@
     <div class="container">
         <h1>Art Quiz</h1>
         
-        <!-- Data Source Selection -->
-        <div id="source-selection">
-            <h2>Choose Data Source</h2>
-            <div id="source-buttons">
-                <button id="louvre-source-btn" onclick="selectSource('louvre')">Louvre</button>
-            </div>
-        </div>
-        
         <!-- Mode Selection -->
-        <div id="mode-selection" style="display: none;">
+        <div id="mode-selection">
             <h2>Choose Game Mode</h2>
             <div id="mode-buttons">
                 <button id="quiz-mode-btn" onclick="startGame('quiz')">Quiz Mode</button>
@@ -29,7 +21,7 @@
                 <p><strong>Quiz Mode:</strong> Guess the artist from the artwork</p>
                 <p><strong>Browse Mode:</strong> View artworks with all information displayed</p>
             </div>
-            <button id="mode-back-btn" onclick="backToSourceSelection()">Back</button>
+
         </div>
         
         <!-- Quiz Mode -->
@@ -76,6 +68,5 @@
         </div>
     </div>
     <script src="script.js?2"></script>
-    v0.2
 </body>
 </html>

@@ -330,18 +330,12 @@ let quiz;
 let selectedMode;
 let selectedSource;
 
-function selectSource(source) {
-    selectedSource = source;
-    document.getElementById('source-selection').style.display = 'none';
-    document.getElementById('mode-selection').style.display = 'block';
-}
-
 function startGame(mode) {
     document.getElementById('mode-selection').style.display = 'none';
     
     quiz = new ArtQuiz();
     quiz.selectedCategory = 'All';
-    quiz.dataSource = selectedSource;
+    quiz.dataSource = 'louvre';
     
     if (mode === 'quiz') {
         document.getElementById('quiz-container').style.display = 'block';
@@ -352,16 +346,10 @@ function startGame(mode) {
     }
 }
 
-function backToSourceSelection() {
-    document.getElementById('mode-selection').style.display = 'none';
-    document.getElementById('source-selection').style.display = 'block';
-}
-
 function backToMenu() {
     document.getElementById('quiz-container').style.display = 'none';
     document.getElementById('browse-container').style.display = 'none';
-    document.getElementById('mode-selection').style.display = 'none';
-    document.getElementById('source-selection').style.display = 'block';
+    document.getElementById('mode-selection').style.display = 'block';
     quiz = null;
 }
 

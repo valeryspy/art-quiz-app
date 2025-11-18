@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 
-# SPARQL query: best 100 paintings from Louvre (ordered by sitelinks)
+# SPARQL query: artworks from major museums (ordered by sitelinks)
 query = """
 SELECT ?artwork ?artworkLabel ?artist ?artistLabel ?year 
        ?location ?locationLabel ?image ?sitelinks 
@@ -14,7 +14,23 @@ WHERE {
 
   # Bind location properly
   ?artwork wdt:P276 ?location .
-  FILTER(?location = wd:Q19675)        # Louvre
+  FILTER(?location IN (
+    wd:Q19675,      # Louvre Museum
+    wd:Q6373,       # British Museum
+    wd:Q160236,     # Metropolitan Museum of Art
+    wd:Q2943,       # Vatican Museums
+    wd:Q190804,     # Rijksmuseum
+    wd:Q132783,     # State Hermitage Museum
+    wd:Q160112,     # Museo del Prado
+    wd:Q193375,     # Tate Modern
+    wd:Q23402,      # Musée d'Orsay
+    wd:Q180788,     # National Gallery London
+    wd:Q51252,      # Uffizi Gallery
+    wd:Q239303,     # Art Institute of Chicago
+    wd:Q207694,     # Tokyo National Museum
+    wd:Q201469,     # Guggenheim Museum NYC
+    wd:Q1976985     # National Museum of China
+  ))
 
   OPTIONAL { ?artwork wdt:P186 ?material. }   # material used
   OPTIONAL { ?artwork wdt:P136 ?genre. }      # genre
@@ -23,7 +39,7 @@ WHERE {
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
 }
 ORDER BY DESC(?sitelinks)
-LIMIT 2000
+LIMIT 100000
 """
 
 url = "https://query.wikidata.org/sparql"
