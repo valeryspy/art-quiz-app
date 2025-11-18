@@ -508,19 +508,24 @@ h1 {
 }
 
 @media (max-width: 768px) {
-    #browse-artwork {
+    #browse-artwork, #collection-artwork {
         flex-direction: column;
         text-align: center;
     }
     
-    #browse-info {
+    #browse-info, #collection-info {
         text-align: center;
     }
     
-    #mode-buttons, #source-buttons {
+    #mode-buttons, #source-buttons, #quiz-source-buttons {
         flex-direction: column;
         align-items: center;
         gap: 10px;
+    }
+    
+    #browse-navigation, #collection-navigation {
+        flex-direction: column;
+        gap: 5px;
     }
     
     #louvre-source-btn {
