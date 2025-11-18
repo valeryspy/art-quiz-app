@@ -11,6 +11,8 @@ class ArtQuiz {
         this.mode = null;
         this.currentArtworkIndex = 0;
         this.dataSource = 'nga';
+        this.myCollection = globalCollection;
+        this.currentCollectionIndex = 0;
     }
 
     async init(mode) {
@@ -23,6 +25,9 @@ class ArtQuiz {
             this.populateArtistSelector();
             document.getElementById('loading').style.display = 'none';
             this.showArtwork();
+        } else if (mode === 'collection') {
+            document.getElementById('loading').style.display = 'none';
+            this.showCollection();
         }
     }
 
@@ -337,7 +342,7 @@ class ArtQuiz {
         document.getElementById('browse-material').textContent = `Material: ${artwork.material || 'Unknown'}`;
         document.getElementById('browse-genre').textContent = `Genre: ${artwork.genre || 'Unknown'}`;
         
-
+        this.updateHeartButton();
         
         document.getElementById('browse-container').style.display = 'block';
     }
@@ -350,6 +355,102 @@ class ArtQuiz {
     prevArtwork() {
         this.currentArtworkIndex = (this.currentArtworkIndex - 1 + this.filteredArtworks.length) % this.filteredArtworks.length;
         this.showArtwork();
+    }
+
+    showCollection() {
+        if (this.myCollection.length === 0) {
+            document.getElementById('collection-empty').style.display = 'block';
+            document.getElementById('collection-content').style.display = 'none';
+        } else {
+            document.getElementById('collection-empty').style.display = 'none';
+            document.getElementById('collection-content').style.display = 'block';
+            this.currentCollectionIndex = 0;
+            this.showCollectionArtwork();
+        }
+        document.getElementById('collection-container').style.display = 'block';
+    }
+
+    showCollectionArtwork() {
+        const artwork = this.myCollection[this.currentCollectionIndex];
+        
+        const collectionImage = document.getElementById('collection-image');
+        collectionImage.onerror = () => {
+            console.error('Failed to load collection image:', artwork.imageUrl);
+            collectionImage.alt = `Image failed to load: ${artwork.title}`;
+        };
+        collectionImage.src = artwork.imageUrl || artwork.image_url;
+        document.getElementById('collection-title').textContent = artwork.title || 'Untitled';
+        document.getElementById('collection-artist').textContent = `Artist: ${artwork.artist}`;
+        document.getElementById('collection-year').textContent = `Year: ${artwork.year || 'Unknown'}`;
+        document.getElementById('collection-museum').textContent = `Museum: ${artwork.museum || artwork.collection || 'Unknown'}`;
+        document.getElementById('collection-art-type').textContent = `Type: ${artwork.art_type || 'Unknown'}`;
+        document.getElementById('collection-material').textContent = `Material: ${artwork.material || 'Unknown'}`;
+        document.getElementById('collection-genre').textContent = `Genre: ${artwork.genre || 'Unknown'}`;
+    }
+
+    nextCollectionArtwork() {
+        this.currentCollectionIndex = (this.currentCollectionIndex + 1) % this.myCollection.length;
+        this.showCollectionArtwork();
+    }
+
+    prevCollectionArtwork() {
+        this.currentCollectionIndex = (this.currentCollectionIndex - 1 + this.myCollection.length) % this.myCollection.length;
+        this.showCollectionArtwork();
+    }
+
+    removeFromCollection() {
+        const artwork = this.myCollection[this.currentCollectionIndex];
+        const artworkTitle = artwork.title || 'this artwork';
+        
+        if (confirm(`Are you sure you want to remove "${artworkTitle}" from your collection?`)) {
+            this.myCollection.splice(this.currentCollectionIndex, 1);
+            globalCollection = this.myCollection;
+            
+            if (this.myCollection.length === 0) {
+                this.showCollection();
+            } else {
+                if (this.currentCollectionIndex >= this.myCollection.length) {
+                    this.currentCollectionIndex = 0;
+                }
+                this.showCollectionArtwork();
+            }
+        }
+    }
+
+    addToCollection() {
+        const currentArtwork = this.filteredArtworks[this.currentArtworkIndex];
+        
+        // Check if artwork is already in collection
+        const isAlreadyInCollection = this.myCollection.some(item => 
+            item.artwork_id === currentArtwork.artwork_id
+        );
+        
+        if (!isAlreadyInCollection) {
+            this.myCollection.push(currentArtwork);
+            globalCollection = this.myCollection;
+            this.updateHeartButton();
+            // Show feedback
+            const btn = document.getElementById('add-to-collection-btn');
+            const originalText = btn.textContent;
+            btn.textContent = '♥ Added!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                this.updateHeartButton();
+            }, 1000);
+        }
+    }
+
+    updateHeartButton() {
+        const currentArtwork = this.filteredArtworks[this.currentArtworkIndex];
+        const btn = document.getElementById('add-to-collection-btn');
+        
+        if (this.myCollection.some(item => item.artwork_id === currentArtwork.artwork_id)) {
+            btn.textContent = '♥ In Collection';
+            btn.classList.add('in-collection');
+        } else {
+            btn.textContent = '♡ Add to Collection';
+            btn.classList.remove('in-collection');
+        }
     }
 
     populateMuseumSelector() {
@@ -465,6 +566,7 @@ class ArtQuiz {
 let quiz;
 let selectedMode;
 let selectedSource;
+let globalCollection = [];
 
 function startGame(mode) {
     document.getElementById('mode-selection').style.display = 'none';
@@ -476,15 +578,19 @@ function startGame(mode) {
     if (mode === 'quiz') {
         document.getElementById('quiz-container').style.display = 'block';
         quiz.init('quiz');
-    } else {
+    } else if (mode === 'browse') {
         document.getElementById('browse-container').style.display = 'block';
         quiz.init('browse');
+    } else if (mode === 'collection') {
+        document.getElementById('collection-container').style.display = 'block';
+        quiz.init('collection');
     }
 }
 
 function backToMenu() {
     document.getElementById('quiz-container').style.display = 'none';
     document.getElementById('browse-container').style.display = 'none';
+    document.getElementById('collection-container').style.display = 'none';
     document.getElementById('mode-selection').style.display = 'block';
     quiz = null;
 }

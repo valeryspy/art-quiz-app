@@ -16,10 +16,12 @@
             <div id="mode-buttons">
                 <button id="quiz-mode-btn" onclick="startGame('quiz')">Quiz Mode</button>
                 <button id="browse-mode-btn" onclick="startGame('browse')">Browse Mode</button>
+                <button id="collection-mode-btn" onclick="startGame('collection')">My Collection</button>
             </div>
             <div id="mode-descriptions">
                 <p><strong>Quiz Mode:</strong> Guess the artist from the artwork</p>
                 <p><strong>Browse Mode:</strong> View artworks with all information displayed</p>
+                <p><strong>My Collection:</strong> View your personal collection of saved artworks</p>
             </div>
 
         </div>
@@ -74,9 +76,40 @@
                     <p id="browse-genre"></p>
                 </div>
             </div>
-            <button id="prev-artwork-btn" onclick="quiz.prevArtwork()">Previous Artwork</button>
-            <button id="next-artwork-btn" onclick="quiz.nextArtwork()">Next Artwork</button>
+            <div id="browse-navigation">
+                <button id="prev-artwork-btn" onclick="quiz.prevArtwork()">Previous Artwork</button>
+                <button id="next-artwork-btn" onclick="quiz.nextArtwork()">Next Artwork</button>
+                <button id="add-to-collection-btn" onclick="quiz.addToCollection()" title="Add to My Collection">♡ Add to Collection</button>
+            </div>
             <button id="browse-back-btn" onclick="backToMenu()">Back to Menu</button>
+        </div>
+        
+        <!-- My Collection Mode -->
+        <div id="collection-container" style="display: none;">
+            <div id="collection-empty" style="text-align: center; padding: 50px;">
+                <h2>Your Collection is Empty</h2>
+                <p>Add items to your collection by browsing artworks and saving your favorites!</p>
+            </div>
+            <div id="collection-content" style="display: none;">
+                <div id="collection-artwork">
+                    <img id="collection-image" alt="Artwork">
+                    <div id="collection-info">
+                        <h2 id="collection-title"></h2>
+                        <p id="collection-artist"></p>
+                        <p id="collection-year"></p>
+                        <p id="collection-museum"></p>
+                        <p id="collection-art-type"></p>
+                        <p id="collection-material"></p>
+                        <p id="collection-genre"></p>
+                    </div>
+                </div>
+                <div id="collection-navigation">
+                    <button id="prev-collection-btn" onclick="quiz.prevCollectionArtwork()">Previous Artwork</button>
+                    <button id="next-collection-btn" onclick="quiz.nextCollectionArtwork()">Next Artwork</button>
+                    <button id="remove-from-collection-btn" onclick="quiz.removeFromCollection()">Remove from Collection</button>
+                </div>
+            </div>
+            <button id="collection-back-btn" onclick="backToMenu()">Back to Menu</button>
         </div>
     </div>
     <script src="script.js?2"></script>

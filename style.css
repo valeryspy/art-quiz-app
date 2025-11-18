@@ -246,7 +246,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-#quiz-mode-btn, #browse-mode-btn {
+#quiz-mode-btn, #browse-mode-btn, #collection-mode-btn {
     padding: 15px 30px;
     font-size: 18px;
     border: none;
@@ -271,6 +271,15 @@ h1 {
 
 #browse-mode-btn:hover {
     background: #218838;
+}
+
+#collection-mode-btn {
+    background: #6f42c1;
+    color: white;
+}
+
+#collection-mode-btn:hover {
+    background: #5a32a3;
 }
 
 #mode-descriptions {
@@ -328,45 +337,46 @@ h1 {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
-#browse-artwork {
+#browse-artwork, #collection-artwork {
     display: flex;
     align-items: center;
     gap: 30px;
     margin-bottom: 30px;
 }
 
-#browse-image {
+#browse-image, #collection-image {
     max-width: 400px;
     max-height: 400px;
     border-radius: 10px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-#browse-info {
+#browse-info, #collection-info {
     text-align: left;
     flex: 1;
 }
 
-#browse-title {
+#browse-title, #collection-title {
     font-size: 2em;
     margin-bottom: 10px;
     color: #333;
 }
 
-#browse-artist {
+#browse-artist, #collection-artist {
     font-size: 1.5em;
     color: #007bff;
     margin-bottom: 10px;
     font-weight: bold;
 }
 
-#browse-year, #browse-collection, #browse-art-type, #browse-material, #browse-genre {
+#browse-year, #browse-collection, #browse-art-type, #browse-material, #browse-genre,
+#collection-year, #collection-museum, #collection-art-type, #collection-material, #collection-genre {
     font-size: 1.2em;
     color: #666;
     margin-bottom: 8px;
 }
 
-#browse-material, #browse-genre {
+#browse-material, #browse-genre, #collection-material, #collection-genre {
     font-size: 1.1em;
     color: #888;
     font-style: italic;
@@ -374,20 +384,69 @@ h1 {
 
 
 
-#prev-artwork-btn, #next-artwork-btn, #browse-back-btn, #quiz-back-btn {
-    padding: 12px 30px;
+#browse-navigation, #collection-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+#prev-artwork-btn, #next-artwork-btn, #prev-collection-btn, #next-collection-btn, #remove-from-collection-btn, #add-to-collection-btn {
+    padding: 10px 20px;
     background: #007bff;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+}
+
+#prev-artwork-btn:hover, #next-artwork-btn:hover, #prev-collection-btn:hover, #next-collection-btn:hover, #remove-from-collection-btn:hover, #add-to-collection-btn:hover {
+    background: #0056b3;
+}
+
+#browse-back-btn, #quiz-back-btn, #collection-back-btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 12px 30px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
     font-size: 16px;
-    margin: 10px;
     transition: background 0.3s ease;
 }
 
-#prev-artwork-btn:hover, #next-artwork-btn:hover, #browse-back-btn:hover, #quiz-back-btn:hover {
-    background: #0056b3;
+#browse-back-btn:hover, #quiz-back-btn:hover, #collection-back-btn:hover {
+    background: #5a6268;
+}
+
+#add-to-collection-btn {
+    background: #28a745;
+}
+
+#add-to-collection-btn:hover {
+    background: #218838;
+}
+
+#add-to-collection-btn.in-collection {
+    background: #dc3545;
+}
+
+#add-to-collection-btn.in-collection:hover {
+    background: #c82333;
+}
+
+#remove-from-collection-btn {
+    background: #dc3545;
+}
+
+#remove-from-collection-btn:hover {
+    background: #c82333;
 }
 
 #quiz-back-btn {
