@@ -29,7 +29,7 @@ WHERE {
     wd:Q239303,     # Art Institute of Chicago
     wd:Q207694,     # Tokyo National Museum
     wd:Q201469,     # Guggenheim Museum NYC
-    wd:Q1976985     # National Museum of China
+    wd:Q1976985     # Nelson-Atkins Museum of Art
   ))
 
   OPTIONAL { ?artwork wdt:P186 ?material. }   # material used

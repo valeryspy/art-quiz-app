@@ -19,6 +19,8 @@ class ArtQuiz {
         if (mode === 'quiz') {
             this.generateQuestion();
         } else if (mode === 'browse') {
+            this.populateMuseumSelector();
+            this.populateArtistSelector();
             document.getElementById('loading').style.display = 'none';
             this.showArtwork();
         }
@@ -186,11 +188,15 @@ class ArtQuiz {
             fiftyFiftyBtn.textContent = '50/50';
         }
 
-        // Hide result, year hint, and next button
+        // Hide result, hints, and next button
         document.getElementById('result').style.display = 'none';
         document.getElementById('next-btn').style.display = 'none';
         const yearHint = document.getElementById('year-hint');
         if (yearHint) yearHint.remove();
+        const genreHint = document.getElementById('genre-hint');
+        if (genreHint) genreHint.remove();
+        const museumHint = document.getElementById('museum-hint');
+        if (museumHint) museumHint.remove();
     }
 
     showYearHint() {
@@ -222,6 +228,23 @@ class ArtQuiz {
         const hintDiv = document.createElement('div');
         hintDiv.id = 'genre-hint';
         hintDiv.textContent = `This is a: ${genre}`;
+        
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.insertBefore(hintDiv, document.getElementById('options'));
+    }
+
+    showMuseumHint() {
+        const { artwork } = this.currentQuestion;
+        const museum = artwork.museum || artwork.collection || 'Unknown';
+        
+        // Remove existing hint if any
+        const existingHint = document.getElementById('museum-hint');
+        if (existingHint) existingHint.remove();
+        
+        // Create and show museum hint
+        const hintDiv = document.createElement('div');
+        hintDiv.id = 'museum-hint';
+        hintDiv.textContent = `This artwork is in: ${museum}`;
         
         const optionsContainer = document.getElementById('options-container');
         optionsContainer.insertBefore(hintDiv, document.getElementById('options'));
@@ -321,6 +344,119 @@ class ArtQuiz {
 
     nextArtwork() {
         this.currentArtworkIndex = (this.currentArtworkIndex + 1) % this.filteredArtworks.length;
+        this.showArtwork();
+    }
+
+    prevArtwork() {
+        this.currentArtworkIndex = (this.currentArtworkIndex - 1 + this.filteredArtworks.length) % this.filteredArtworks.length;
+        this.showArtwork();
+    }
+
+    populateMuseumSelector() {
+        const museumCounts = {};
+        this.artworks.forEach(artwork => {
+            const museum = artwork.museum || 'Unknown';
+            museumCounts[museum] = (museumCounts[museum] || 0) + 1;
+        });
+
+        const datalist = document.getElementById('museum-list');
+        const input = document.getElementById('museum-select');
+        datalist.innerHTML = '';
+        
+        // Add "All Museums" option
+        const allOption = document.createElement('option');
+        allOption.value = `All Museums (${this.artworks.length})`;
+        datalist.appendChild(allOption);
+        
+        Object.entries(museumCounts)
+            .sort(([,a], [,b]) => b - a)
+            .forEach(([museum, count]) => {
+                const option = document.createElement('option');
+                option.value = `${museum} (${count})`;
+                datalist.appendChild(option);
+            });
+        
+        // Set default value
+        input.value = `All Museums (${this.artworks.length})`;
+    }
+
+    filterByMuseum() {
+        this.updateArtistSelector();
+        this.applyFilters();
+    }
+
+    populateArtistSelector() {
+        this.updateArtistSelector();
+    }
+
+    updateArtistSelector() {
+        const selectedMuseumText = document.getElementById('museum-select').value;
+        const selectedMuseum = this.extractMuseumName(selectedMuseumText);
+        
+        // Filter artworks by selected museum
+        const filteredArtworks = selectedMuseum === 'All Museums' 
+            ? this.artworks 
+            : this.artworks.filter(artwork => (artwork.museum || 'Unknown') === selectedMuseum);
+        
+        const artistCounts = {};
+        filteredArtworks.forEach(artwork => {
+            const artist = artwork.artist || 'Unknown';
+            artistCounts[artist] = (artistCounts[artist] || 0) + 1;
+        });
+
+        const datalist = document.getElementById('artist-list');
+        const input = document.getElementById('artist-select');
+        const currentSelection = this.extractArtistName(input.value);
+        datalist.innerHTML = '';
+        
+        // Add "All Artists" option
+        const allOption = document.createElement('option');
+        allOption.value = `All Artists (${filteredArtworks.length})`;
+        datalist.appendChild(allOption);
+        
+        Object.entries(artistCounts)
+            .sort(([,a], [,b]) => b - a)
+            .forEach(([artist, count]) => {
+                const option = document.createElement('option');
+                option.value = `${artist} (${count})`;
+                datalist.appendChild(option);
+            });
+        
+        // Restore selection if still available, otherwise reset to All
+        if (artistCounts[currentSelection]) {
+            input.value = `${currentSelection} (${artistCounts[currentSelection]})`;
+        } else {
+            input.value = `All Artists (${filteredArtworks.length})`;
+        }
+    }
+
+    extractMuseumName(text) {
+        if (!text || text.startsWith('All Museums')) return 'All Museums';
+        return text.replace(/ \(\d+\)$/, '');
+    }
+
+    extractArtistName(text) {
+        if (!text || text.startsWith('All Artists')) return 'All Artists';
+        return text.replace(/ \(\d+\)$/, '');
+    }
+
+    filterByArtist() {
+        this.applyFilters();
+    }
+
+    applyFilters() {
+        const selectedMuseumText = document.getElementById('museum-select').value;
+        const selectedArtistText = document.getElementById('artist-select').value;
+        const selectedMuseum = this.extractMuseumName(selectedMuseumText);
+        const selectedArtist = this.extractArtistName(selectedArtistText);
+        
+        this.filteredArtworks = this.artworks.filter(artwork => {
+            const museumMatch = selectedMuseum === 'All Museums' || (artwork.museum || 'Unknown') === selectedMuseum;
+            const artistMatch = selectedArtist === 'All Artists' || (artwork.artist || 'Unknown') === selectedArtist;
+            return museumMatch && artistMatch;
+        });
+        
+        this.currentArtworkIndex = 0;
         this.showArtwork();
     }
 }

@@ -39,6 +39,7 @@
                         <button id="fifty-fifty-btn" onclick="quiz.useFiftyFifty()">50/50</button>
                         <button id="year-hint-btn" onclick="quiz.showYearHint()">Year Hint</button>
                         <button id="genre-hint-btn" onclick="quiz.showGenreHint()">Genre Hint</button>
+                        <button id="museum-hint-btn" onclick="quiz.showMuseumHint()">Museum Hint</button>
                     </div>
                     <div id="options"></div>
                 </div>
@@ -51,6 +52,16 @@
         
         <!-- Browse Mode -->
         <div id="browse-container" style="display: none;">
+            <div id="museum-selector">
+                <h3>Choose Museum:</h3>
+                <input type="text" id="museum-select" list="museum-list" placeholder="Type or select museum..." oninput="quiz.filterByMuseum()" onfocus="this.value='';">
+                <datalist id="museum-list"></datalist>
+            </div>
+            <div id="artist-selector">
+                <h3>Choose Artist:</h3>
+                <input type="text" id="artist-select" list="artist-list" placeholder="Type or select artist..." oninput="quiz.filterByArtist()" onfocus="this.value='';">
+                <datalist id="artist-list"></datalist>
+            </div>
             <div id="browse-artwork">
                 <img id="browse-image" alt="Artwork">
                 <div id="browse-info">
@@ -63,6 +74,7 @@
                     <p id="browse-genre"></p>
                 </div>
             </div>
+            <button id="prev-artwork-btn" onclick="quiz.prevArtwork()">Previous Artwork</button>
             <button id="next-artwork-btn" onclick="quiz.nextArtwork()">Next Artwork</button>
             <button id="browse-back-btn" onclick="backToMenu()">Back to Menu</button>
         </div>
