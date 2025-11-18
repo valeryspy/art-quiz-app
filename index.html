@@ -10,8 +10,18 @@
     <div class="container">
         <h1>Art Quiz</h1>
         
+        <!-- Data Source Selection -->
+        <div id="source-selection">
+            <h2>Choose Data Source</h2>
+            <div id="source-buttons">
+                <button id="nga-source-btn" onclick="selectSource('nga')">National Gallery of Art</button>
+                <button id="wiki-source-btn" onclick="selectSource('wiki')">Wiki</button>
+                <button id="louvre-source-btn" onclick="selectSource('louvre')">Louvre</button>
+            </div>
+        </div>
+        
         <!-- Mode Selection -->
-        <div id="mode-selection">
+        <div id="mode-selection" style="display: none;">
             <h2>Choose Game Mode</h2>
             <div id="mode-buttons">
                 <button id="quiz-mode-btn" onclick="selectMode('quiz')">Quiz Mode</button>
@@ -21,6 +31,7 @@
                 <p><strong>Quiz Mode:</strong> Guess the artist from the artwork</p>
                 <p><strong>Browse Mode:</strong> View artworks with all information displayed</p>
             </div>
+            <button id="mode-back-btn" onclick="backToSourceSelection()">Back</button>
         </div>
         
         <!-- Category Selection -->

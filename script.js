@@ -10,6 +10,7 @@ class ArtQuiz {
         this.fiftyFiftyUsed = false;
         this.mode = null;
         this.currentArtworkIndex = 0;
+        this.dataSource = 'nga';
     }
 
     async init(mode) {
@@ -24,12 +25,13 @@ class ArtQuiz {
 
     async loadData() {
         try {
-            document.getElementById('loading').textContent = 'Loading NGA collection...';
+            const sourceName = this.dataSource === 'nga' ? 'NGA collection' : 'Wiki collection';
+            document.getElementById('loading').textContent = `Loading ${sourceName}...`;
             console.log('Starting data load...');
             
             const [artworksResponse, artistsResponse] = await Promise.all([
-                fetch('/api/artworks'),
-                fetch('/api/artists')
+                fetch(`/api/artworks?source=${this.dataSource}`),
+                fetch(`/api/artists?source=${this.dataSource}`)
             ]);
             
             if (!artworksResponse.ok || !artistsResponse.ok) {
@@ -42,7 +44,7 @@ class ArtQuiz {
             // Add imageUrl for display
             this.artworks = this.artworks.map(artwork => ({
                 ...artwork,
-                imageUrl: `${artwork.iiifurl}/full/!400,400/0/default.jpg`
+                imageUrl: this.dataSource === 'nga' ? `${artwork.iiifurl}/full/!400,400/0/default.jpg` : artwork.iiifurl
             }));
             
             this.filterArtworks();
@@ -303,9 +305,16 @@ class ArtQuiz {
     }
 }
 
-// Global functions for mode and category selection
+// Global functions for source, mode and category selection
 let quiz;
 let selectedMode;
+let selectedSource;
+
+function selectSource(source) {
+    selectedSource = source;
+    document.getElementById('source-selection').style.display = 'none';
+    document.getElementById('mode-selection').style.display = 'block';
+}
 
 function selectMode(mode) {
     selectedMode = mode;
@@ -316,7 +325,7 @@ function selectMode(mode) {
 
 async function loadCategories() {
     try {
-        const response = await fetch('/api/categories');
+        const response = await fetch(`/api/categories?source=${selectedSource}`);
         const categories = await response.json();
         
         const buttonsContainer = document.getElementById('category-buttons');
@@ -338,6 +347,7 @@ function startGame(category) {
     
     quiz = new ArtQuiz();
     quiz.selectedCategory = category;
+    quiz.dataSource = selectedSource;
     
     if (selectedMode === 'quiz') {
         document.getElementById('quiz-container').style.display = 'block';
@@ -345,6 +355,11 @@ function startGame(category) {
     } else {
         quiz.init('browse');
     }
+}
+
+function backToSourceSelection() {
+    document.getElementById('mode-selection').style.display = 'none';
+    document.getElementById('source-selection').style.display = 'block';
 }
 
 function backToModeSelection() {
@@ -356,7 +371,8 @@ function backToMenu() {
     document.getElementById('quiz-container').style.display = 'none';
     document.getElementById('browse-container').style.display = 'none';
     document.getElementById('category-selection').style.display = 'none';
-    document.getElementById('mode-selection').style.display = 'block';
+    document.getElementById('mode-selection').style.display = 'none';
+    document.getElementById('source-selection').style.display = 'block';
     quiz = null;
 }
 

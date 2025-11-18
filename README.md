@@ -24,6 +24,10 @@ Live Demo Here: https://valeryspy-art-quiz-app.hf.space/
 
 ## Features
 
+### 🎯 Data Sources
+- **National Gallery of Art**: Curated collection from NGA's open data
+- **Wiki**: 1000 most popular paintings from Wikidata (based on sitelinks)
+
 ### 🎯 Quiz Mode
 - Guess the artist from displayed artwork
 - Multiple choice questions with 4 options
@@ -62,12 +66,17 @@ Live Demo Here: https://valeryspy-art-quiz-app.hf.space/
    python3 process_data.py
    ```
 
-4. **Start the server**:
+4. **Create Wiki data** (optional, for Wiki source):
+   ```bash
+   python3 create_wiki_data.py
+   ```
+
+5. **Start the server**:
    ```bash
    python3 server.py
    ```
 
-5. **Open your browser** and go to:
+6. **Open your browser** and go to:
    ```
    http://localhost:8000
    ```

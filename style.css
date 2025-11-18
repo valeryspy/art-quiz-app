@@ -192,6 +192,60 @@ h1 {
     font-weight: bold;
 }
 
+/* Source Selection */
+#source-selection {
+    text-align: center;
+    padding: 40px 0;
+}
+
+#source-selection h2 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+#source-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+#nga-source-btn, #wiki-source-btn, #louvre-source-btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#nga-source-btn {
+    background: #6f42c1;
+    color: white;
+}
+
+#nga-source-btn:hover {
+    background: #5a2d91;
+}
+
+#wiki-source-btn {
+    background: #fd7e14;
+    color: white;
+}
+
+#wiki-source-btn:hover {
+    background: #e8590c;
+}
+
+#louvre-source-btn {
+    background: #dc3545;
+    color: white;
+}
+
+#louvre-source-btn:hover {
+    background: #c82333;
+}
+
 /* Mode Selection */
 #mode-selection {
     text-align: center;
@@ -240,6 +294,22 @@ h1 {
 #mode-descriptions {
     color: #666;
     font-size: 14px;
+}
+
+#mode-back-btn {
+    padding: 12px 30px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background 0.3s ease;
+}
+
+#mode-back-btn:hover {
+    background: #5a6268;
 }
 
 /* Category Selection */
@@ -374,8 +444,13 @@ h1 {
         text-align: center;
     }
     
-    #mode-buttons {
+    #mode-buttons, #source-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 10px;
+    }
+    
+    #nga-source-btn, #wiki-source-btn, #louvre-source-btn {
+        width: 200px;
     }
 }
