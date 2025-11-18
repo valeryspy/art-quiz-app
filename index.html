@@ -26,6 +26,20 @@
 
         </div>
         
+        <!-- Quiz Source Selection -->
+        <div id="quiz-source-selection" style="display: none;">
+            <h2>Choose Quiz Source</h2>
+            <div id="quiz-source-buttons">
+                <button id="all-artworks-btn" onclick="startQuiz('all')">All Artworks</button>
+                <button id="my-collection-quiz-btn" onclick="startQuiz('collection')">My Collection</button>
+            </div>
+            <div id="quiz-source-descriptions">
+                <p><strong>All Artworks:</strong> Quiz from the entire museum collection</p>
+                <p><strong>My Collection:</strong> Quiz only from your saved artworks</p>
+            </div>
+            <button id="quiz-source-back-btn" onclick="backToMenu()">Back to Menu</button>
+        </div>
+        
         <!-- Quiz Mode -->
         <div id="quiz-container" style="display: none;">
             <div id="loading">Loading artwork...</div>
@@ -112,6 +126,7 @@
             <button id="collection-back-btn" onclick="backToMenu()">Back to Menu</button>
         </div>
     </div>
+    <div class="version">v1.0.0</div>
     <script src="script.js?2"></script>
 </body>
 </html>

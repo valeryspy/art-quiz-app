@@ -13,6 +13,8 @@ class ArtQuiz {
         this.dataSource = 'nga';
         this.myCollection = globalCollection;
         this.currentCollectionIndex = 0;
+        this.quizSource = 'all';
+        this.usedArtworks = [];
     }
 
     async init(mode) {
@@ -70,8 +72,8 @@ class ArtQuiz {
     }
     
     filterArtworks() {
-        // No filtering - use all artworks
-        this.filteredArtworks = this.artworks;
+        // No filtering - use all artworks and shuffle them
+        this.filteredArtworks = [...this.artworks].sort(() => 0.5 - Math.random());
     }
 
     async parseCSV(csvText) {
@@ -127,21 +129,51 @@ class ArtQuiz {
     }
 
     generateQuestion() {
-        if (this.filteredArtworks.length === 0) {
-            document.getElementById('loading').textContent = 'No artworks available. Please refresh the page.';
+        const sourceArtworks = this.quizSource === 'collection' ? this.myCollection : this.filteredArtworks;
+        
+        if (sourceArtworks.length === 0) {
+            const message = this.quizSource === 'collection' 
+                ? 'Your collection is empty. Add some artworks first!' 
+                : 'No artworks available. Please refresh the page.';
+            document.getElementById('loading').textContent = message;
             return;
         }
 
-        // Select random artwork
-        const randomArtwork = this.filteredArtworks[Math.floor(Math.random() * this.filteredArtworks.length)];
+        // Filter out already used artworks
+        const availableArtworks = sourceArtworks.filter(artwork => 
+            !this.usedArtworks.includes(artwork.artwork_id)
+        );
+        
+        // If all artworks have been used, reset the used list
+        if (availableArtworks.length === 0) {
+            this.usedArtworks = [];
+            availableArtworks.push(...sourceArtworks);
+        }
+
+        // Select random artwork from available ones
+        const randomArtwork = availableArtworks[Math.floor(Math.random() * availableArtworks.length)];
+        this.usedArtworks.push(randomArtwork.artwork_id);
         console.log(`Selected artwork: ${randomArtwork.title} by ${randomArtwork.artist}`);
         const correctArtist = randomArtwork.artist;
 
-        // Generate 3 wrong options
-        const wrongArtists = this.artists
+        // Generate 3 wrong options from appropriate source
+        const sourceArtists = this.quizSource === 'collection' 
+            ? [...new Set(this.myCollection.map(artwork => artwork.artist))]
+            : this.artists;
+            
+        const wrongArtists = sourceArtists
             .filter(artist => artist !== correctArtist)
             .sort(() => 0.5 - Math.random())
             .slice(0, 3);
+
+        // If not enough wrong artists in collection, fill from all artists
+        if (wrongArtists.length < 3 && this.quizSource === 'collection') {
+            const additionalArtists = this.artists
+                .filter(artist => artist !== correctArtist && !wrongArtists.includes(artist))
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3 - wrongArtists.length);
+            wrongArtists.push(...additionalArtists);
+        }
 
         // Combine and shuffle options
         const options = [correctArtist, ...wrongArtists].sort(() => 0.5 - Math.random());
@@ -555,7 +587,7 @@ class ArtQuiz {
             const museumMatch = selectedMuseum === 'All Museums' || (artwork.museum || 'Unknown') === selectedMuseum;
             const artistMatch = selectedArtist === 'All Artists' || (artwork.artist || 'Unknown') === selectedArtist;
             return museumMatch && artistMatch;
-        });
+        }).sort(() => 0.5 - Math.random());
         
         this.currentArtworkIndex = 0;
         this.showArtwork();
@@ -576,8 +608,7 @@ function startGame(mode) {
     quiz.dataSource = 'louvre';
     
     if (mode === 'quiz') {
-        document.getElementById('quiz-container').style.display = 'block';
-        quiz.init('quiz');
+        document.getElementById('quiz-source-selection').style.display = 'block';
     } else if (mode === 'browse') {
         document.getElementById('browse-container').style.display = 'block';
         quiz.init('browse');
@@ -587,8 +618,20 @@ function startGame(mode) {
     }
 }
 
+function startQuiz(source) {
+    document.getElementById('quiz-source-selection').style.display = 'none';
+    document.getElementById('quiz-container').style.display = 'block';
+    
+    quiz = new ArtQuiz();
+    quiz.selectedCategory = 'All';
+    quiz.dataSource = 'louvre';
+    quiz.quizSource = source;
+    quiz.init('quiz');
+}
+
 function backToMenu() {
     document.getElementById('quiz-container').style.display = 'none';
+    document.getElementById('quiz-source-selection').style.display = 'none';
     document.getElementById('browse-container').style.display = 'none';
     document.getElementById('collection-container').style.display = 'none';
     document.getElementById('mode-selection').style.display = 'block';
