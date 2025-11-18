@@ -150,7 +150,7 @@ h1 {
     gap: 10px;
 }
 
-#fifty-fifty-btn, #year-hint-btn {
+#fifty-fifty-btn, #year-hint-btn, #genre-hint-btn {
     padding: 8px 16px;
     color: white;
     border: none;
@@ -173,15 +173,15 @@ h1 {
     cursor: not-allowed;
 }
 
-#year-hint-btn {
+#year-hint-btn, #genre-hint-btn {
     background: #17a2b8;
 }
 
-#year-hint-btn:hover {
+#year-hint-btn:hover, #genre-hint-btn:hover {
     background: #138496;
 }
 
-#year-hint {
+#year-hint, #genre-hint {
     text-align: center;
     margin: 10px 0;
     padding: 10px;
@@ -217,24 +217,6 @@ h1 {
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
-}
-
-#nga-source-btn {
-    background: #6f42c1;
-    color: white;
-}
-
-#nga-source-btn:hover {
-    background: #5a2d91;
-}
-
-#wiki-source-btn {
-    background: #fd7e14;
-    color: white;
-}
-
-#wiki-source-btn:hover {
-    background: #e8590c;
 }
 
 #louvre-source-btn {
@@ -312,55 +294,7 @@ h1 {
     background: #5a6268;
 }
 
-/* Category Selection */
-#category-selection {
-    text-align: center;
-    padding: 40px 0;
-}
 
-#category-selection h2 {
-    margin-bottom: 30px;
-    color: #333;
-}
-
-#category-buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-#category-buttons button {
-    padding: 15px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background: #f8f9fa;
-    color: #333;
-    transition: all 0.3s ease;
-}
-
-#category-buttons button:hover {
-    background: #007bff;
-    color: white;
-    transform: translateY(-2px);
-}
-
-#category-back-btn {
-    padding: 12px 30px;
-    background: #6c757d;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
-}
-
-#category-back-btn:hover {
-    background: #5a6268;
-}
 
 /* Browse Mode */
 #browse-container {
@@ -399,16 +333,19 @@ h1 {
     font-weight: bold;
 }
 
-#browse-year, #browse-medium {
+#browse-year, #browse-collection, #browse-art-type, #browse-material, #browse-genre {
     font-size: 1.2em;
     color: #666;
+    margin-bottom: 8px;
 }
 
-#browse-medium {
+#browse-material, #browse-genre {
     font-size: 1.1em;
     color: #888;
     font-style: italic;
 }
+
+
 
 #next-artwork-btn, #browse-back-btn, #quiz-back-btn {
     padding: 12px 30px;
@@ -450,7 +387,7 @@ h1 {
         gap: 10px;
     }
     
-    #nga-source-btn, #wiki-source-btn, #louvre-source-btn {
+    #louvre-source-btn {
         width: 200px;
     }
 }

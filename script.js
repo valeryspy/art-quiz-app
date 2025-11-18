@@ -19,6 +19,7 @@ class ArtQuiz {
         if (mode === 'quiz') {
             this.generateQuestion();
         } else if (mode === 'browse') {
+            document.getElementById('loading').style.display = 'none';
             this.showArtwork();
         }
     }
@@ -41,10 +42,10 @@ class ArtQuiz {
             this.artworks = await artworksResponse.json();
             this.artists = await artistsResponse.json();
             
-            // Add imageUrl for display
+            // Add imageUrl for display (use image_url from wikidata)
             this.artworks = this.artworks.map(artwork => ({
                 ...artwork,
-                imageUrl: this.dataSource === 'nga' ? `${artwork.iiifurl}/full/!400,400/0/default.jpg` : artwork.iiifurl
+                imageUrl: artwork.image_url || artwork.iiifurl
             }));
             
             this.filterArtworks();
@@ -62,13 +63,8 @@ class ArtQuiz {
     }
     
     filterArtworks() {
-        if (this.selectedCategory === 'All') {
-            this.filteredArtworks = this.artworks;
-        } else {
-            this.filteredArtworks = this.artworks.filter(artwork => 
-                artwork.classification === this.selectedCategory
-            );
-        }
+        // No filtering - use all artworks
+        this.filteredArtworks = this.artworks;
     }
 
     async parseCSV(csvText) {
@@ -131,8 +127,8 @@ class ArtQuiz {
 
         // Select random artwork
         const randomArtwork = this.filteredArtworks[Math.floor(Math.random() * this.filteredArtworks.length)];
-        console.log(`Selected artwork: ${randomArtwork.title} by ${randomArtwork.attribution}`);
-        const correctArtist = randomArtwork.attribution;
+        console.log(`Selected artwork: ${randomArtwork.title} by ${randomArtwork.artist}`);
+        const correctArtist = randomArtwork.artist;
 
         // Generate 3 wrong options
         const wrongArtists = this.artists
@@ -169,7 +165,7 @@ class ArtQuiz {
         };
         artworkImage.src = artwork.imageUrl;
         document.getElementById('artwork-info').textContent = artwork.title || 'Untitled';
-        document.getElementById('artwork-medium').textContent = artwork.medium || '';
+        document.getElementById('artwork-medium').textContent = artwork.material || '';
 
         // Display options
         const optionsContainer = document.getElementById('options');
@@ -199,7 +195,7 @@ class ArtQuiz {
 
     showYearHint() {
         const { artwork } = this.currentQuestion;
-        const year = artwork.beginyear || 'Unknown';
+        const year = artwork.year || 'Unknown';
         
         // Remove existing hint if any
         const existingHint = document.getElementById('year-hint');
@@ -209,6 +205,23 @@ class ArtQuiz {
         const hintDiv = document.createElement('div');
         hintDiv.id = 'year-hint';
         hintDiv.textContent = `This artwork was created in: ${year}`;
+        
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.insertBefore(hintDiv, document.getElementById('options'));
+    }
+
+    showGenreHint() {
+        const { artwork } = this.currentQuestion;
+        const genre = artwork.genre || 'Unknown';
+        
+        // Remove existing hint if any
+        const existingHint = document.getElementById('genre-hint');
+        if (existingHint) existingHint.remove();
+        
+        // Create and show genre hint
+        const hintDiv = document.createElement('div');
+        hintDiv.id = 'genre-hint';
+        hintDiv.textContent = `This is a: ${genre}`;
         
         const optionsContainer = document.getElementById('options-container');
         optionsContainer.insertBefore(hintDiv, document.getElementById('options'));
@@ -280,10 +293,12 @@ class ArtQuiz {
     showArtwork() {
         if (this.filteredArtworks.length === 0) {
             document.getElementById('loading').textContent = 'No artworks available.';
+            document.getElementById('loading').style.display = 'block';
             return;
         }
 
         const artwork = this.filteredArtworks[this.currentArtworkIndex];
+        console.log('Showing artwork:', artwork);
         
         const browseImage = document.getElementById('browse-image');
         browseImage.onerror = () => {
@@ -292,9 +307,14 @@ class ArtQuiz {
         };
         browseImage.src = artwork.imageUrl;
         document.getElementById('browse-title').textContent = artwork.title || 'Untitled';
-        document.getElementById('browse-artist').textContent = `Artist: ${artwork.attribution}`;
-        document.getElementById('browse-year').textContent = `Year: ${artwork.beginyear || 'Unknown'}`;
-        document.getElementById('browse-medium').textContent = `Medium: ${artwork.medium || 'Unknown'}`;
+        document.getElementById('browse-artist').textContent = `Artist: ${artwork.artist}`;
+        document.getElementById('browse-year').textContent = `Year: ${artwork.year || 'Unknown'}`;
+        document.getElementById('browse-collection').textContent = `Museum: ${artwork.museum || artwork.collection || 'Louvre'}`;
+        document.getElementById('browse-art-type').textContent = `Type: ${artwork.art_type || 'Unknown'}`;
+        document.getElementById('browse-material').textContent = `Material: ${artwork.material || 'Unknown'}`;
+        document.getElementById('browse-genre').textContent = `Genre: ${artwork.genre || 'Unknown'}`;
+        
+
         
         document.getElementById('browse-container').style.display = 'block';
     }
@@ -316,43 +336,18 @@ function selectSource(source) {
     document.getElementById('mode-selection').style.display = 'block';
 }
 
-function selectMode(mode) {
-    selectedMode = mode;
+function startGame(mode) {
     document.getElementById('mode-selection').style.display = 'none';
-    document.getElementById('category-selection').style.display = 'block';
-    loadCategories();
-}
-
-async function loadCategories() {
-    try {
-        const response = await fetch(`/api/categories?source=${selectedSource}`);
-        const categories = await response.json();
-        
-        const buttonsContainer = document.getElementById('category-buttons');
-        buttonsContainer.innerHTML = '';
-        
-        categories.forEach(category => {
-            const button = document.createElement('button');
-            button.textContent = category;
-            button.onclick = () => startGame(category);
-            buttonsContainer.appendChild(button);
-        });
-    } catch (error) {
-        console.error('Error loading categories:', error);
-    }
-}
-
-function startGame(category) {
-    document.getElementById('category-selection').style.display = 'none';
     
     quiz = new ArtQuiz();
-    quiz.selectedCategory = category;
+    quiz.selectedCategory = 'All';
     quiz.dataSource = selectedSource;
     
-    if (selectedMode === 'quiz') {
+    if (mode === 'quiz') {
         document.getElementById('quiz-container').style.display = 'block';
         quiz.init('quiz');
     } else {
+        document.getElementById('browse-container').style.display = 'block';
         quiz.init('browse');
     }
 }
@@ -362,15 +357,9 @@ function backToSourceSelection() {
     document.getElementById('source-selection').style.display = 'block';
 }
 
-function backToModeSelection() {
-    document.getElementById('category-selection').style.display = 'none';
-    document.getElementById('mode-selection').style.display = 'block';
-}
-
 function backToMenu() {
     document.getElementById('quiz-container').style.display = 'none';
     document.getElementById('browse-container').style.display = 'none';
-    document.getElementById('category-selection').style.display = 'none';
     document.getElementById('mode-selection').style.display = 'none';
     document.getElementById('source-selection').style.display = 'block';
     quiz = null;
