@@ -444,14 +444,48 @@ class ArtQuiz {
     showCollection() {
         if (this.myCollection.length === 0) {
             document.getElementById('collection-empty').style.display = 'block';
-            document.getElementById('collection-content').style.display = 'none';
+            document.getElementById('collection-grid').style.display = 'none';
+            document.getElementById('collection-detail').style.display = 'none';
         } else {
             document.getElementById('collection-empty').style.display = 'none';
-            document.getElementById('collection-content').style.display = 'block';
-            this.currentCollectionIndex = 0;
-            this.showCollectionArtwork();
+            this.showCollectionGrid();
         }
         document.getElementById('collection-container').style.display = 'block';
+    }
+
+    showCollectionGrid() {
+        document.getElementById('collection-grid').style.display = 'block';
+        document.getElementById('collection-detail').style.display = 'none';
+        
+        const thumbnailsContainer = document.getElementById('collection-thumbnails');
+        thumbnailsContainer.innerHTML = '';
+        
+        this.myCollection.forEach((artwork, index) => {
+            const thumbnailDiv = document.createElement('div');
+            thumbnailDiv.className = 'collection-thumbnail';
+            thumbnailDiv.onclick = () => this.showCollectionDetail(index);
+            
+            const img = document.createElement('img');
+            img.src = artwork.imageUrl || artwork.image_url;
+            img.alt = artwork.title || 'Untitled';
+            img.onerror = () => {
+                img.alt = `Failed to load: ${artwork.title}`;
+            };
+            
+            const title = document.createElement('p');
+            title.textContent = artwork.title || 'Untitled';
+            
+            thumbnailDiv.appendChild(img);
+            thumbnailDiv.appendChild(title);
+            thumbnailsContainer.appendChild(thumbnailDiv);
+        });
+    }
+
+    showCollectionDetail(index) {
+        this.currentCollectionIndex = index;
+        document.getElementById('collection-grid').style.display = 'none';
+        document.getElementById('collection-detail').style.display = 'block';
+        this.showCollectionArtwork();
     }
 
     showCollectionArtwork() {
@@ -497,7 +531,7 @@ class ArtQuiz {
                 if (this.currentCollectionIndex >= this.myCollection.length) {
                     this.currentCollectionIndex = 0;
                 }
-                this.showCollectionArtwork();
+                this.showCollectionGrid();
             }
         }
     }

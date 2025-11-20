@@ -124,7 +124,11 @@
                 <h2>Your Collection is Empty</h2>
                 <p>Add items to your collection by browsing artworks and saving your favorites!</p>
             </div>
-            <div id="collection-content" style="display: none;">
+            <div id="collection-grid" style="display: none;">
+                <div id="collection-thumbnails"></div>
+            </div>
+            <div id="collection-detail" style="display: none;">
+                <button id="back-to-grid-btn" onclick="quiz.showCollectionGrid()">← Back to Grid</button>
                 <div id="collection-artwork">
                     <img id="collection-image" alt="Artwork">
                     <div id="collection-info">

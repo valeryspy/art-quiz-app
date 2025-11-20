@@ -8,12 +8,12 @@
         "artwork_id": "wikidata_3072",
         "category": "Painting",
         "genre": "portrait",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20C%C3%A9zanne%20-%20The%20Cardplayer%20-%20Google%20Art%20Project.jpg?width=400",
         "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20C%C3%A9zanne%20-%20The%20Cardplayer%20-%20Google%20Art%20Project.jpg?width=400",
         "material": "oil paint",
         "museum": "Mus\u00e9e d'Orsay",
         "title": "Le joueur de cartes (The Cardplayer)",
-        "year": "1890",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20C%C3%A9zanne%20-%20The%20Cardplayer%20-%20Google%20Art%20Project.jpg?width=400"
+        "year": "1890"
       },
       {
         "art_type": "painting",
@@ -21,12 +21,51 @@
         "artwork_id": "wikidata_3659",
         "category": "Painting",
         "genre": "marine art",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Boudin%20006.jpg?width=400",
         "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Boudin%20006.jpg?width=400",
         "material": "oil paint",
         "museum": "Mus\u00e9e d'Orsay",
         "title": "The mole of Deauville",
-        "year": "1869",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Boudin%20006.jpg?width=400"
+        "year": "1869"
+      },
+      {
+        "art_type": "painting",
+        "artist": "Pierre Bonnard",
+        "artwork_id": "wikidata_6064",
+        "category": "Painting",
+        "genre": "landscape painting",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Pierre%20Bonnard%20The%20Large%20Garden.jpg?width=400",
+        "material": "oil paint",
+        "museum": "Mus\u00e9e d'Orsay",
+        "title": "The Large Garden",
+        "year": "1895",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Pierre%20Bonnard%20The%20Large%20Garden.jpg?width=400"
+      },
+      {
+        "art_type": "painting",
+        "artist": "Paul Signac",
+        "artwork_id": "wikidata_3422",
+        "category": "Painting",
+        "genre": "landscape painting",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20signac%2C%20argini%20di%20fiume%2C%20la%20senna%20a%20herblay%2C%201889%2C%2002.JPG?width=400",
+        "material": "oil paint",
+        "museum": "Mus\u00e9e d'Orsay",
+        "title": "Banks of river Seine at Herblay",
+        "year": "1889",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20signac%2C%20argini%20di%20fiume%2C%20la%20senna%20a%20herblay%2C%201889%2C%2002.JPG?width=400"
+      },
+      {
+        "art_type": "painting",
+        "artist": "Anthony van Dyck",
+        "artwork_id": "wikidata_3410",
+        "category": "Painting",
+        "genre": "portrait",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/A.%20van%20Dyck%20Portrait%20of%20Nicolaes%20van%20der%20Borght%201625-1635.jpg?width=400",
+        "material": "oil paint",
+        "museum": "Rijksmuseum",
+        "title": "Portrait of Nicolaes van der Borght. Merchant of Antwerp",
+        "year": "1630",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/A.%20van%20Dyck%20Portrait%20of%20Nicolaes%20van%20der%20Borght%201625-1635.jpg?width=400"
       }
     ],
     "quiz_history": [],
