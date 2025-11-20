@@ -1,6 +1,7 @@
 class ArtQuiz {
     constructor() {
         this.score = 0;
+        this.sessionScore = 0;
         this.currentQuestion = null;
         this.artworks = [];
         this.filteredArtworks = [];
@@ -15,6 +16,7 @@ class ArtQuiz {
         this.currentCollectionIndex = 0;
         this.quizSource = 'all';
         this.usedArtworks = [];
+        this.correctlyAnswered = [];
     }
 
     async init(mode) {
@@ -139,20 +141,19 @@ class ArtQuiz {
             return;
         }
 
-        // Filter out already used artworks
+        // Filter out correctly answered artworks
         const availableArtworks = sourceArtworks.filter(artwork => 
-            !this.usedArtworks.includes(artwork.artwork_id)
+            !this.correctlyAnswered.includes(artwork.artwork_id)
         );
         
-        // If all artworks have been used, reset the used list
+        // If all artworks have been answered correctly, show congratulations
         if (availableArtworks.length === 0) {
-            this.usedArtworks = [];
-            availableArtworks.push(...sourceArtworks);
+            this.showCongratulations();
+            return;
         }
 
         // Select random artwork from available ones
         const randomArtwork = availableArtworks[Math.floor(Math.random() * availableArtworks.length)];
-        this.usedArtworks.push(randomArtwork.artwork_id);
         console.log(`Selected artwork: ${randomArtwork.title} by ${randomArtwork.artist}`);
         const correctArtist = randomArtwork.artist;
 
@@ -331,6 +332,9 @@ class ArtQuiz {
         
         if (isCorrect) {
             this.score++;
+            this.sessionScore++;
+            lifetimeScore++;
+            this.correctlyAnswered.push(this.currentQuestion.artwork.artwork_id);
             resultDiv.textContent = 'Correct! Well done!';
             resultDiv.className = 'correct';
         } else {
@@ -339,11 +343,59 @@ class ArtQuiz {
         }
 
         // Update score
-        document.getElementById('score-value').textContent = this.score;
+        document.getElementById('score-value').textContent = this.sessionScore;
+
+        // Save quiz progress
+        this.saveQuizProgress(isCorrect);
 
         // Show next button
         document.getElementById('next-btn').style.display = 'block';
         document.getElementById('next-btn').onclick = () => this.nextQuestion();
+    }
+
+    async saveQuizProgress(isCorrect) {
+        if (!currentUser) return;
+        
+        try {
+            await fetch('/api/user/quiz-result', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
+                body: JSON.stringify({
+                    correct: isCorrect ? 1 : 0,
+                    total: 1
+                })
+            });
+        } catch (error) {
+            console.error('Error saving quiz progress:', error);
+        }
+    }
+
+    showCongratulations() {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('quiz').style.display = 'none';
+        document.getElementById('score').style.display = 'none';
+        document.getElementById('quiz-back-btn').style.display = 'none';
+        
+        const container = document.getElementById('quiz-container');
+        let congratsDiv = document.getElementById('congratulations');
+        
+        if (!congratsDiv) {
+            congratsDiv = document.createElement('div');
+            congratsDiv.id = 'congratulations';
+            congratsDiv.innerHTML = `
+                <h2 style="margin-bottom: 30px;">🎉 Congratulations! 🎉</h2>
+                <p style="margin-bottom: 20px; font-size: 18px;">You've answered all questions correctly!</p>
+                <p style="margin-bottom: 20px; font-size: 20px;">Session Score: <strong>${this.sessionScore}</strong></p>
+                <p style="margin-bottom: 40px; font-size: 18px;">Lifetime Score: <strong>${lifetimeScore}</strong></p>
+                <button onclick="backToMenu()" style="padding: 15px 30px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer;">Back to Menu</button>
+            `;
+            congratsDiv.style.textAlign = 'center';
+            congratsDiv.style.padding = '50px';
+            container.appendChild(congratsDiv);
+        }
+        
+        congratsDiv.style.display = 'block';
     }
 
     nextQuestion() {
@@ -437,6 +489,7 @@ class ArtQuiz {
         if (confirm(`Are you sure you want to remove "${artworkTitle}" from your collection?`)) {
             this.myCollection.splice(this.currentCollectionIndex, 1);
             globalCollection = this.myCollection;
+            saveUserCollection();
             
             if (this.myCollection.length === 0) {
                 this.showCollection();
@@ -460,6 +513,7 @@ class ArtQuiz {
         if (!isAlreadyInCollection) {
             this.myCollection.push(currentArtwork);
             globalCollection = this.myCollection;
+            saveUserCollection();
             this.updateHeartButton();
             // Show feedback
             const btn = document.getElementById('add-to-collection-btn');
@@ -599,6 +653,77 @@ let quiz;
 let selectedMode;
 let selectedSource;
 let globalCollection = [];
+let currentUser = null;
+let lifetimeScore = 0;
+
+// Login functions
+async function login() {
+    const username = document.getElementById('username-input').value.trim();
+    const password = document.getElementById('password-input').value.trim();
+    
+    if (!username || !password) {
+        alert('Please enter both username and password');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({username, password})
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+            currentUser = data.username;
+            globalCollection = data.profile.collection || [];
+            lifetimeScore = data.profile.quiz_stats ? data.profile.quiz_stats.correct : 0;
+            document.getElementById('welcome-user').textContent = `Welcome, ${username}!`;
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('mode-selection').style.display = 'block';
+        } else {
+            alert(data.error || 'Login failed');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('Login failed. Please try again.');
+    }
+}
+
+async function logout() {
+    try {
+        await fetch('/api/logout', {
+            method: 'POST',
+            credentials: 'include'
+        });
+        
+        currentUser = null;
+        globalCollection = [];
+        lifetimeScore = 0;
+        document.getElementById('username-input').value = '';
+        document.getElementById('password-input').value = '';
+        document.getElementById('login-screen').style.display = 'block';
+        document.getElementById('mode-selection').style.display = 'none';
+    } catch (error) {
+        console.error('Logout error:', error);
+    }
+}
+
+async function saveUserCollection() {
+    if (!currentUser) return;
+    
+    try {
+        await fetch('/api/user/collection', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({collection: globalCollection})
+        });
+    } catch (error) {
+        console.error('Error saving collection:', error);
+    }
+}
 
 function startGame(mode) {
     document.getElementById('mode-selection').style.display = 'none';
@@ -608,6 +733,7 @@ function startGame(mode) {
     quiz.dataSource = 'louvre';
     
     if (mode === 'quiz') {
+        document.getElementById('quiz-selection-lifetime-score').textContent = lifetimeScore;
         document.getElementById('quiz-source-selection').style.display = 'block';
     } else if (mode === 'browse') {
         document.getElementById('browse-container').style.display = 'block';
@@ -626,6 +752,10 @@ function startQuiz(source) {
     quiz.selectedCategory = 'All';
     quiz.dataSource = 'louvre';
     quiz.quizSource = source;
+    
+    // Initialize score displays
+    document.getElementById('score-value').textContent = quiz.sessionScore;
+    
     quiz.init('quiz');
 }
 
@@ -634,11 +764,46 @@ function backToMenu() {
     document.getElementById('quiz-source-selection').style.display = 'none';
     document.getElementById('browse-container').style.display = 'none';
     document.getElementById('collection-container').style.display = 'none';
+    
+    // Hide congratulations if visible
+    const congratsDiv = document.getElementById('congratulations');
+    if (congratsDiv) {
+        congratsDiv.style.display = 'none';
+    }
+    
     document.getElementById('mode-selection').style.display = 'block';
     quiz = null;
 }
 
-// Initialize mode selection when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    // Show mode selection by default
+// Initialize and check login status when page loads
+document.addEventListener('DOMContentLoaded', async () => {
+    await checkLoginStatus();
 });
+
+
+
+async function checkLoginStatus() {
+    try {
+        const response = await fetch('/api/user/profile', {
+            credentials: 'include'
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            currentUser = data.username;
+            globalCollection = data.profile.collection || [];
+            lifetimeScore = data.profile.quiz_stats ? data.profile.quiz_stats.correct : 0;
+            document.getElementById('welcome-user').textContent = `Welcome, ${data.username}!`;
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('mode-selection').style.display = 'block';
+        } else {
+            // Not logged in, show login screen
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('mode-selection').style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error checking login status:', error);
+        document.getElementById('login-screen').style.display = 'block';
+        document.getElementById('mode-selection').style.display = 'none';
+    }
+}

@@ -10,8 +10,23 @@
     <div class="container">
         <h1>Art Quiz</h1>
         
+        <!-- Login Screen -->
+        <div id="login-screen">
+            <h2>Welcome to Art Quiz</h2>
+            <div id="login-form">
+                <input type="text" id="username-input" placeholder="Enter your username" maxlength="20">
+                <input type="password" id="password-input" placeholder="Enter your password" maxlength="50">
+                <button id="login-btn" onclick="login()">Login</button>
+            </div>
+            <p class="login-note">Your progress and collection will be saved</p>
+        </div>
+        
         <!-- Mode Selection -->
-        <div id="mode-selection">
+        <div id="mode-selection" style="display: none;">
+            <div id="user-info">
+                <span id="welcome-user"></span>
+                <button id="logout-btn" onclick="logout()">Logout</button>
+            </div>
             <h2>Choose Game Mode</h2>
             <div id="mode-buttons">
                 <button id="quiz-mode-btn" onclick="startGame('quiz')">Quiz Mode</button>
@@ -28,6 +43,9 @@
         
         <!-- Quiz Source Selection -->
         <div id="quiz-source-selection" style="display: none;">
+            <div id="quiz-lifetime-score">
+                <p>Your Lifetime Score: <span id="quiz-selection-lifetime-score">0</span></p>
+            </div>
             <h2>Choose Quiz Source</h2>
             <div id="quiz-source-buttons">
                 <button id="all-artworks-btn" onclick="startQuiz('all')">All Artworks</button>
@@ -62,7 +80,9 @@
                 <div id="result" style="display: none;"></div>
                 <button id="next-btn" style="display: none;">Next Question</button>
             </div>
-            <div id="score">Score: <span id="score-value">0</span></div>
+            <div id="score">
+                <div>Session Score: <span id="score-value">0</span></div>
+            </div>
             <button id="quiz-back-btn" onclick="backToMenu()">Back to Menu</button>
         </div>
         

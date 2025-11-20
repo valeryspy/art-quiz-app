@@ -1,0 +1,40 @@
+{
+  "test": {
+    "password": "pw1",
+    "collection": [
+      {
+        "art_type": "painting",
+        "artist": "Paul C\u00e9zanne",
+        "artwork_id": "wikidata_3072",
+        "category": "Painting",
+        "genre": "portrait",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20C%C3%A9zanne%20-%20The%20Cardplayer%20-%20Google%20Art%20Project.jpg?width=400",
+        "material": "oil paint",
+        "museum": "Mus\u00e9e d'Orsay",
+        "title": "Le joueur de cartes (The Cardplayer)",
+        "year": "1890",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20C%C3%A9zanne%20-%20The%20Cardplayer%20-%20Google%20Art%20Project.jpg?width=400"
+      },
+      {
+        "art_type": "painting",
+        "artist": "Eug\u00e8ne Louis Boudin",
+        "artwork_id": "wikidata_3659",
+        "category": "Painting",
+        "genre": "marine art",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Boudin%20006.jpg?width=400",
+        "material": "oil paint",
+        "museum": "Mus\u00e9e d'Orsay",
+        "title": "The mole of Deauville",
+        "year": "1869",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Boudin%20006.jpg?width=400"
+      }
+    ],
+    "quiz_history": [],
+    "total_score": 0,
+    "games_played": 0,
+    "quiz_stats": {
+      "correct": 0,
+      "total": 0
+    }
+  }
+}
