@@ -39,15 +39,14 @@ except Exception as e:
     print(f"Error loading artist info: {e}")
     artist_info = []
 
-# Load Artist Summary (detailed)
+# Load Artist Descriptions (detailed HTML)
 try:
-    artist_summary_df = pd.read_csv('artist_summary.csv')
-    artist_summary_df = artist_summary_df.fillna('')
-    artist_summary = artist_summary_df.to_dict('records')
-    print(f"Loaded {len(artist_summary)} detailed artist summaries")
+    with open('artist_desc.json', 'r', encoding='utf-8') as f:
+        artist_desc = json.load(f)
+    print(f"Loaded {len(artist_desc)} detailed artist descriptions")
 except Exception as e:
-    print(f"Error loading artist summary: {e}")
-    artist_summary = []
+    print(f"Error loading artist descriptions: {e}")
+    artist_desc = {}
 
 # Simple user data storage (in production, use a proper database)
 USER_DATA_FILE = 'user_data.json'
@@ -106,19 +105,32 @@ def get_movements():
 
 @app.route('/api/artist-info/<artist_name>')
 def get_artist_info(artist_name):
-    # Try detailed summary first
-    for artist in artist_summary:
-        if artist['artist'] == artist_name:
-            return jsonify({
-                'artist': artist['artist'],
-                'artist_summary': artist['summary'],
-                'wiki_link': artist['wikipedia_link']
-            })
-    # Fall back to basic info
+    # Find artist in artist_info
+    artist_data = None
     for artist in artist_info:
         if artist['artist'] == artist_name:
-            return jsonify(artist)
-    return jsonify({'error': 'Artist not found'}), 404
+            artist_data = artist
+            break
+    
+    if not artist_data:
+        return jsonify({'error': 'Artist not found'}), 404
+    
+    # Check if detailed description exists
+    if artist_name in artist_desc:
+        return jsonify({
+            'artist': artist_name,
+            'artist_summary': artist_desc[artist_name],
+            'wiki_link': artist_data.get('wiki_link', ''),
+            'image_url': artist_data.get('image_url', ''),
+            'period': artist_data.get('period', ''),
+            'years': artist_data.get('years', ''),
+            'movement': artist_data.get('movement', ''),
+            'country': artist_data.get('country', ''),
+            'is_html': True
+        })
+    
+    # Return basic info
+    return jsonify({**artist_data, 'is_html': False})
 
 
 @app.route('/api/login', methods=['POST'])

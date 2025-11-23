@@ -82,37 +82,40 @@
       },
       {
         "art_type": "painting",
-        "artist": "Eug\u00e8ne Delacroix",
-        "artwork_id": "wikidata_1307",
-        "category": "Painting",
-        "genre": "genre art",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Delacroix%20-%20Lion%20Hunt%20-%201922.404%20-%20Art%20Institute%20of%20Chicago.jpg?width=400",
-        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Delacroix%20-%20Lion%20Hunt%20-%201922.404%20-%20Art%20Institute%20of%20Chicago.jpg?width=400",
-        "material": "oil paint",
-        "museum": "Art Institute of Chicago",
-        "title": "La Chasse aux lions au Maroc",
-        "year": "1861"
-      },
-      {
-        "art_type": "painting",
         "artist": "Pietro Longhi",
         "artwork_id": "wikidata_11959",
         "category": "Painting",
         "genre": "Unknown",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Pietro%20Longhi%20-%20The%20Dance%20-%201932.52%20-%20Art%20Institute%20of%20Chicago.jpg?width=400",
         "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Pietro%20Longhi%20-%20The%20Dance%20-%201932.52%20-%20Art%20Institute%20of%20Chicago.jpg?width=400",
         "material": "oil paint",
         "museum": "Art Institute of Chicago",
         "title": "The Dance",
-        "year": "1750",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Pietro%20Longhi%20-%20The%20Dance%20-%201932.52%20-%20Art%20Institute%20of%20Chicago.jpg?width=400"
+        "year": "1750"
+      },
+      {
+        "art_type": "painting",
+        "artist": "Leonardo da Vinci",
+        "artist_id": "4f9b6c6861b4",
+        "artwork": "Mona Lisa",
+        "artwork_id": "482db68d82cf",
+        "category": "Painting",
+        "genre": "portrait",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Mona%20Lisa%2C%20by%20Leonardo%20da%20Vinci%2C%20from%20C2RMF%20natural%20color.jpg?width=400",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Mona%20Lisa%2C%20by%20Leonardo%20da%20Vinci%2C%20from%20C2RMF%20natural%20color.jpg?width=400",
+        "location": "Louvre Museum",
+        "material": "oil paint",
+        "movement": "Italian Renaissance",
+        "museum": "Salle des \u00c9tats, Louvre",
+        "year": 1503
       }
     ],
     "quiz_history": [],
     "total_score": 0,
     "games_played": 0,
     "quiz_stats": {
-      "correct": 4,
-      "total": 5
+      "correct": 6,
+      "total": 9
     }
   }
 }

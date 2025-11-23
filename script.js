@@ -210,12 +210,12 @@ class ArtQuiz {
         const artworkImage = document.getElementById('artwork-image');
         artworkImage.onerror = () => {
             console.error('Failed to load image:', artwork.imageUrl);
-            document.getElementById('loading').textContent = `Image failed to load: ${artwork.title}`;
+            document.getElementById('loading').textContent = `Image failed to load: ${artwork.title || artwork.artwork}`;
             document.getElementById('loading').style.display = 'block';
             document.getElementById('quiz').style.display = 'none';
         };
         artworkImage.src = artwork.imageUrl;
-        document.getElementById('artwork-info').textContent = artwork.title || 'Untitled';
+        document.getElementById('artwork-info').textContent = artwork.title || artwork.artwork || 'Untitled';
         document.getElementById('artwork-medium').textContent = artwork.material || '';
 
         // Display options
@@ -502,13 +502,13 @@ class ArtQuiz {
             
             const img = document.createElement('img');
             img.src = artwork.imageUrl || artwork.image_url;
-            img.alt = artwork.title || 'Untitled';
+            img.alt = artwork.title || artwork.artwork || 'Untitled';
             img.onerror = () => {
-                img.alt = `Failed to load: ${artwork.title}`;
+                img.alt = `Failed to load: ${artwork.title || artwork.artwork}`;
             };
             
             const title = document.createElement('p');
-            title.textContent = artwork.title || 'Untitled';
+            title.textContent = artwork.title || artwork.artwork || 'Untitled';
             
             thumbnailDiv.appendChild(img);
             thumbnailDiv.appendChild(title);
@@ -896,9 +896,21 @@ async function browseArtistWorks(artist) {
     
     // Display artist info
     document.getElementById('artist-name').textContent = artist;
-    document.getElementById('artist-summary').textContent = artistInfo.artist_summary || 'No summary available.';
+    
+    // Display artist details
+    document.getElementById('artist-years').textContent = artistInfo.years || '';
+    document.getElementById('artist-country').textContent = artistInfo.country || '';
+    document.getElementById('artist-movement').textContent = artistInfo.movement || '';
+    document.getElementById('artist-period').textContent = artistInfo.period || '';
+    
+    const summaryElement = document.getElementById('artist-summary');
+    if (artistInfo.is_html) {
+        summaryElement.innerHTML = artistInfo.artist_summary || 'No summary available.';
+    } else {
+        summaryElement.textContent = artistInfo.artist_summary || 'No summary available.';
+    }
     document.getElementById('artist-wiki-link').href = artistInfo.wiki_link || '#';
-    document.getElementById('artist-image').src = 'https://via.placeholder.com/200x200?text=' + encodeURIComponent(artist);
+    document.getElementById('artist-image').src = artistInfo.image_url || 'https://via.placeholder.com/200x200?text=' + encodeURIComponent(artist);
     
     // Display artworks
     const grid = document.getElementById('artist-artworks-grid');
@@ -924,9 +936,11 @@ async function browseArtistWorks(artist) {
 }
 
 let currentArtistContext = null;
+let currentDetailArtwork = null;
 
 function showArtworkDetail(artwork, artist) {
     currentArtistContext = artist;
+    currentDetailArtwork = artwork;
     document.getElementById('artist-profile-container').style.display = 'none';
     document.getElementById('artwork-detail-container').style.display = 'block';
     
@@ -962,6 +976,58 @@ function showArtworkDetail(artwork, artist) {
     } else {
         movementElement.style.display = 'block';
         movementElement.textContent = `Movement: ${movement}`;
+    }
+    
+    // Add Wikipedia link
+    const wikiLink = document.getElementById('detail-artwork-wiki-link');
+    if (wikiLink) wikiLink.remove();
+    
+    const artworkTitle = artwork.title || artwork.artwork;
+    if (artworkTitle) {
+        const link = document.createElement('a');
+        link.id = 'detail-artwork-wiki-link';
+        link.href = `https://en.wikipedia.org/wiki/${encodeURIComponent(artworkTitle.replace(/ /g, '_'))}`;
+        link.target = '_blank';
+        link.textContent = 'Read more on Wikipedia →';
+        document.getElementById('detail-artwork-info').appendChild(link);
+    }
+    
+    updateDetailHeartButton();
+}
+
+function addToCollectionFromDetail() {
+    if (!currentDetailArtwork) return;
+    
+    const isAlreadyInCollection = globalCollection.some(item => 
+        item.artwork_id === currentDetailArtwork.artwork_id
+    );
+    
+    if (!isAlreadyInCollection) {
+        globalCollection.push({...currentDetailArtwork, imageUrl: currentDetailArtwork.image_url || currentDetailArtwork.imageUrl});
+        saveUserCollection();
+        updateDetailHeartButton();
+        const btn = document.getElementById('detail-add-to-collection-btn');
+        const originalText = btn.textContent;
+        btn.textContent = '♥ Added!';
+        setTimeout(() => {
+            btn.textContent = originalText;
+            updateDetailHeartButton();
+        }, 1000);
+    }
+}
+
+function updateDetailHeartButton() {
+    if (!currentDetailArtwork) return;
+    
+    const btn = document.getElementById('detail-add-to-collection-btn');
+    if (!btn) return;
+    
+    if (globalCollection.some(item => item.artwork_id === currentDetailArtwork.artwork_id)) {
+        btn.textContent = '♥ In Collection';
+        btn.classList.add('in-collection');
+    } else {
+        btn.textContent = '♡ Add to Collection';
+        btn.classList.remove('in-collection');
     }
 }
 
@@ -1011,6 +1077,7 @@ function backToMenu() {
     
     document.getElementById('mode-selection').style.display = 'block';
     currentArtistContext = null;
+    currentDetailArtwork = null;
     quiz = null;
 }
 
