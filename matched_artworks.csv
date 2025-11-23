@@ -1,0 +1,158 @@
+artist_x,artwork,artwork_id
+Leonardo da Vinci,Mona Lisa,482db68d82cf
+Leonardo da Vinci,Lady with an Ermine,5eaf8570532b
+Leonardo da Vinci,Vitruvian Man,85ad4df17856
+Leonardo da Vinci,Benois Madonna,18bc3def9cd5
+Leonardo da Vinci,Ginevra de' Benci,57fb1178bf43
+Leonardo da Vinci,Annunciation,d4da9e6e69a9
+Leonardo da Vinci,Salvator Mundi,974dcc8ca113
+Michelangelo,The Creation of Adam,a119694fd91a
+Michelangelo,The Last Judgment,0671e6a4bb4d
+Michelangelo,Doni Tondo,f0e0937ed96a
+Michelangelo,The Entombment,d2f3d942bc98
+Michelangelo,The Torment of Saint Anthony,d5dfccb45f4c
+Raphael,The School of Athens,5a2bf453de11
+Raphael,Sistine Madonna,10782e49f4bb
+Raphael,Madonna of the Goldfinch,7f8b3899bd8b
+Raphael,La Fornarina,37731f348eb6
+Raphael,Portrait of Baldassare Castiglione,3f56aa4f8096
+Raphael,Madonna della Sedia,ba74d7726c93
+Raphael,Portrait of Pope Julius II,8384a1a7c348
+Caravaggio,Judith Beheading Holofernes,1b17e6f41d31
+Caravaggio,The Entombment of Christ,91ff159a9a1c
+Caravaggio,Supper at Emmaus,03b3c0d40e99
+Caravaggio,David with the Head of Goliath,aaca924dac24
+Caravaggio,The Taking of Christ,c81c5afcced5
+Caravaggio,The Musicians,e48b6701025e
+Caravaggio,Medusa,42ccf669f4ae
+Caravaggio,The Fortune Teller,d7fbf7446305
+Titian,Venus of Urbino,75984d92f4d3
+Titian,Bacchus and Ariadne,d6370a9dc8fe
+Titian,The Rape of Europa,5ec4bffbda64
+Titian,Danaë,4f648ecea1bf
+Titian,The Entombment,c1f3b546fb00
+Titian,Man with a Glove,aa24d875c97e
+Titian,The Crowning with Thorns,16e74f5cf46d
+Titian,Christ Carrying the Cross,a7a143eb9682
+Sandro Botticelli,The Birth of Venus,e76c83d431a4
+Sandro Botticelli,Primavera,17528fd1241b
+Sandro Botticelli,Adoration of the Magi,8d1985311b5e
+Sandro Botticelli,Madonna of the Magnificat,9cdd0f5063e5
+Sandro Botticelli,Portrait of a Young Man,8a11ff9d3352
+Sandro Botticelli,Pallas and the Centaur,cde6866665e7
+Johannes Vermeer,Girl with a Pearl Earring,f192ddada833
+Johannes Vermeer,The Milkmaid,69a76cf7378c
+Johannes Vermeer,View of Delft,83b6322273a2
+Johannes Vermeer,The Little Street,a049ba853c7b
+Johannes Vermeer,Woman Holding a Balance,04402483f9c9
+Johannes Vermeer,The Music Lesson,c6713f186b9c
+Johannes Vermeer,The Geographer,2693f0637e8a
+Johannes Vermeer,Girl Reading a Letter at an Open Window,a56e662e659d
+Johannes Vermeer,The Concert,2f5fcf224fb3
+Peter Paul Rubens,The Descent from the Cross,6b6226f94dbc
+Peter Paul Rubens,The Elevation of the Cross,3de052b47917
+Peter Paul Rubens,The Three Graces,e17c88bf47f2
+Peter Paul Rubens,The Judgement of Paris,88aa2c14b09c
+Peter Paul Rubens,Massacre of the Innocents,aad328b18ddc
+Peter Paul Rubens,The Garden of Love,38a907161666
+Peter Paul Rubens,Samson and Delilah,357e3a7b14c4
+Peter Paul Rubens,Daniel in the Lions' Den,0a1e8001e1f3
+Peter Paul Rubens,Portrait of Anne of Austria,5db547191974
+Peter Paul Rubens,The Tiger Hunt,0303a76b256d
+Diego Velázquez,Las Meninas,8a5cc7b3ba44
+Diego Velázquez,The Surrender of Breda,f57f37867d21
+Diego Velázquez,Christ Crucified,a3717ad76f26
+Diego Velázquez,Portrait of Juan de Pareja,352015525a68
+Diego Velázquez,The Waterseller of Seville,56c1dfc367a8
+Diego Velázquez,Aesop,2e7f793ee057
+Francisco Goya,The Third of May 1808,73a6c9f8b666
+Francisco Goya,Saturn Devouring His Son,de460a2811b1
+Francisco Goya,The Clothed Maja,176a53c72a96
+Francisco Goya,Charles IV of Spain and His Family,cbfad83fd1d2
+Francisco Goya,Witches' Sabbath,a63ebc89b8f3
+Francisco Goya,The Dog,104fced6c462
+Francisco Goya,The Disasters of War,ed0c3963002f
+Francisco Goya,The Milkmaid of Bordeaux,275cc4cc5044
+El Greco,The Burial of the Count of Orgaz,3e996dc18b3c
+El Greco,View of Toledo,db5582e50de4
+El Greco,The Disrobing of Christ,1611b3289325
+El Greco,Opening of the Fifth Seal,cfcac6e90aec
+El Greco,The Holy Trinity,f0c8348e6078
+El Greco,Laocoön,ce8d8180de34
+El Greco,The Annunciation,436d61b4f53b
+El Greco,Christ Carrying the Cross,f10ed5ec00a3
+El Greco,The Adoration of the Shepherds,1276237aa58f
+El Greco,Portrait of a Man,53f531cc4f72
+Jean-Auguste-Dominique Ingres,The Turkish Bath,1403e85faab0
+Jean-Auguste-Dominique Ingres,Portrait of Monsieur Bertin,b3b8ea919b36
+Jean-Auguste-Dominique Ingres,Oedipus and the Sphinx,7c1c7768417e
+Eugène Delacroix,Liberty Leading the People,8b338cca8d2f
+Eugène Delacroix,Women of Algiers,afb44f49ed93
+Eugène Delacroix,The Barque of Dante,b1bfc4bf0657
+Eugène Delacroix,Medea About to Kill Her Children,94d03a30720d
+Eugène Delacroix,The Lion Hunt,01e544d602b2
+Eugène Delacroix,Christ on the Sea of Galilee,a1d68555f78b
+Édouard Manet,Olympia,81b3a6fa2fde
+Édouard Manet,A Bar at the Folies-Bergère,1898bdb0eba7
+Édouard Manet,The Balcony,f9607fb15001
+Édouard Manet,Berthe Morisot with a Bouquet of Violets,fc247d1d9e31
+Édouard Manet,The Railway,cb046c9ca8e3
+Édouard Manet,The Plum,23fd10699a86
+Édouard Manet,The Spanish Singer,805f51683d12
+Édouard Manet,The Dead Toreador,39cbd1f02f77
+Édouard Manet,The Execution of Emperor Maximilian,c4cf16ee69b7
+Claude Monet,Rouen Cathedral Series,06d3180be6ae
+Claude Monet,The Japanese Bridge,20a8567918c8
+Claude Monet,The Artist's Garden at Giverny,cc60604bf059
+Claude Monet,Women in the Garden,042dda9bec73
+Claude Monet,The Cliff Walk at Pourville,b4c1cf307f76
+Claude Monet,San Giorgio Maggiore at Dusk,0fe0862d1c3b
+Pierre-Auguste Renoir,Luncheon of the Boating Party,9c743e2d5230
+Pierre-Auguste Renoir,La Loge,20c91f7d6850
+Pierre-Auguste Renoir,Girl with a Hoop,f961923ad260
+Pierre-Auguste Renoir,By the Seashore,85fee8ccda1b
+Vincent van Gogh,Sunflowers,b3ebcd406d33
+Vincent van Gogh,Irises,8c37e4dadceb
+Vincent van Gogh,Wheatfield with Crows,fe4483ca982f
+Vincent van Gogh,Café Terrace at Night,97097bcb4375
+Vincent van Gogh,Self-Portrait,eee0202e31ec
+Vincent van Gogh,Self-Portrait,ffa6d302a730
+Vincent van Gogh,The Night Café,60ab302928bb
+Vincent van Gogh,Portrait of Dr. Gachet,74e024610466
+Paul Cézanne,The Card Players,13b8d8723152
+Paul Cézanne,Mont Sainte-Victoire,89b6493e55e5
+Paul Cézanne,The Bathers,65a17bcf52a2
+Paul Cézanne,Still Life with Apples,eebf2e79c128
+Paul Cézanne,Self-Portrait,97167b0f9dc7
+Paul Cézanne,The Basket of Apples,20fdd23899f2
+Paul Cézanne,The Boy in the Red Vest,f2ffdc6a4340
+Paul Cézanne,Still Life with a Curtain,367edd742f44
+Paul Cézanne,The Large Bathers,d2555cdd0c81
+Henri Matisse,Blue Nude,e72adc117188
+Henri Matisse,The Snail,ef1ff7f9d7c6
+Henri Matisse,Still Life with Geraniums,c0f76aaee031
+Pablo Picasso,Guernica,599dd0e7c5a4
+Pablo Picasso,Three Musicians,a210ce1d9a31
+Pablo Picasso,Family of Saltimbanques,19a7d86bad5d
+Wassily Kandinsky,Composition VIII,491d05e17627
+Wassily Kandinsky,Yellow-Red-Blue,5a8633018a05
+Wassily Kandinsky,Several Circles,10b03cb699db
+Wassily Kandinsky,Black Lines,3bd85bfd5578
+Wassily Kandinsky,Composition X,e7c60cdd14ac
+Edgar Degas,The Ballet Class,1b34e92fedcd
+Edgar Degas,The Dance Class,b0f452ba0061
+Edgar Degas,The Little Fourteen-Year-Old Dancer,988718bc1ee2
+Edgar Degas,The Bellelli Family,c8c5923850e9
+Edgar Degas,L'Absinthe,d9ddf1b9d01c
+Edgar Degas,Combing the Hair,107e70bbd232
+Edgar Degas,The Tub,c465d3705864
+Georges Seurat,A Sunday Afternoon on the Island of La Grande Jatte,f9b1a9a0084a
+Georges Seurat,Bathers at Asnières,2330db169f30
+Georges Seurat,The Circus,f023a1666066
+Georges Seurat,The Eiffel Tower,14b6ea3e4925
+Georges Seurat,The Seine at Courbevoie,850e219dcd3c
+Georges Seurat,Young Woman Powdering Herself,db81b20f8b5c
+Marc Chagall,I and the Village,18409a57b4f8
+Marc Chagall,White Crucifixion,a423605ba3f8
+Marc Chagall,Paris Through the Window,2f81f03f2555
+Marc Chagall,Self-Portrait with Seven Fingers,f925c012a636

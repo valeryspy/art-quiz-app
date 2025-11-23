@@ -7,6 +7,7 @@ class ArtQuiz {
         this.filteredArtworks = [];
         this.artists = [];
         this.categories = [];
+        this.movements = [];
         this.selectedCategory = 'All';
         this.fiftyFiftyUsed = false;
         this.mode = null;
@@ -37,31 +38,34 @@ class ArtQuiz {
 
     async loadData() {
         try {
-            const sourceName = this.dataSource === 'nga' ? 'NGA collection' : 'Wiki collection';
+            const sourceName = this.dataSource === 'editors' ? "Editor's Choice" : 'Wiki collection';
             document.getElementById('loading').textContent = `Loading ${sourceName}...`;
             console.log('Starting data load...');
             
-            const [artworksResponse, artistsResponse] = await Promise.all([
+            const [artworksResponse, artistsResponse, movementsResponse] = await Promise.all([
                 fetch(`/api/artworks?source=${this.dataSource}`),
-                fetch(`/api/artists?source=${this.dataSource}`)
+                fetch(`/api/artists?source=${this.dataSource}`),
+                fetch(`/api/movements?source=${this.dataSource}`)
             ]);
             
-            if (!artworksResponse.ok || !artistsResponse.ok) {
+            if (!artworksResponse.ok || !artistsResponse.ok || !movementsResponse.ok) {
                 throw new Error('Failed to load data from server');
             }
             
             this.artworks = await artworksResponse.json();
             this.artists = await artistsResponse.json();
+            this.movements = await movementsResponse.json();
             
             // Add imageUrl for display (use image_url from wikidata)
             this.artworks = this.artworks.map(artwork => ({
                 ...artwork,
+                title: artwork.title || artwork.artwork,
                 imageUrl: artwork.image_url || artwork.iiifurl
             }));
             
             this.filterArtworks();
             
-            console.log(`Loaded ${this.artworks.length} artworks and ${this.artists.length} artists`);
+            console.log(`Loaded ${this.artworks.length} artworks, ${this.artists.length} artists, and ${this.movements.length} movements`);
             
             if (this.filteredArtworks.length === 0) {
                 document.getElementById('loading').textContent = 'No artwork found for this category';
@@ -231,8 +235,8 @@ class ArtQuiz {
         document.getElementById('next-btn').style.display = 'none';
         const yearHint = document.getElementById('year-hint');
         if (yearHint) yearHint.remove();
-        const genreHint = document.getElementById('genre-hint');
-        if (genreHint) genreHint.remove();
+        const movementHint = document.getElementById('movement-hint');
+        if (movementHint) movementHint.remove();
         const museumHint = document.getElementById('museum-hint');
         if (museumHint) museumHint.remove();
     }
@@ -254,18 +258,18 @@ class ArtQuiz {
         optionsContainer.insertBefore(hintDiv, document.getElementById('options'));
     }
 
-    showGenreHint() {
+    showMovementHint() {
         const { artwork } = this.currentQuestion;
-        const genre = artwork.genre || 'Unknown';
+        const movement = artwork.movement || 'Unknown';
         
         // Remove existing hint if any
-        const existingHint = document.getElementById('genre-hint');
+        const existingHint = document.getElementById('movement-hint');
         if (existingHint) existingHint.remove();
         
-        // Create and show genre hint
+        // Create and show movement hint
         const hintDiv = document.createElement('div');
-        hintDiv.id = 'genre-hint';
-        hintDiv.textContent = `This is a: ${genre}`;
+        hintDiv.id = 'movement-hint';
+        hintDiv.textContent = `Movement: ${movement}`;
         
         const optionsContainer = document.getElementById('options-container');
         optionsContainer.insertBefore(hintDiv, document.getElementById('options'));
@@ -418,13 +422,37 @@ class ArtQuiz {
             browseImage.alt = `Image failed to load: ${artwork.title}`;
         };
         browseImage.src = artwork.imageUrl;
-        document.getElementById('browse-title').textContent = artwork.title || 'Untitled';
+        document.getElementById('browse-title').textContent = artwork.title || artwork.artwork || 'Untitled';
         document.getElementById('browse-artist').textContent = `Artist: ${artwork.artist}`;
         document.getElementById('browse-year').textContent = `Year: ${artwork.year || 'Unknown'}`;
         document.getElementById('browse-collection').textContent = `Museum: ${artwork.museum || artwork.collection || 'Louvre'}`;
-        document.getElementById('browse-art-type').textContent = `Type: ${artwork.art_type || 'Unknown'}`;
-        document.getElementById('browse-material').textContent = `Material: ${artwork.material || 'Unknown'}`;
-        document.getElementById('browse-genre').textContent = `Genre: ${artwork.genre || 'Unknown'}`;
+        
+        const artTypeElement = document.getElementById('browse-art-type');
+        const artType = artwork.art_type || 'Unknown';
+        if (artType === 'Unknown') {
+            artTypeElement.style.display = 'none';
+        } else {
+            artTypeElement.style.display = 'block';
+            artTypeElement.textContent = `Type: ${artType}`;
+        }
+        
+        const materialElement = document.getElementById('browse-material');
+        const material = artwork.material || 'Unknown';
+        if (material === 'Unknown') {
+            materialElement.style.display = 'none';
+        } else {
+            materialElement.style.display = 'block';
+            materialElement.textContent = `Material: ${material}`;
+        }
+        
+        const movementElement = document.getElementById('browse-movement');
+        const movement = artwork.movement || 'Unknown';
+        if (movement === 'Unknown') {
+            movementElement.style.display = 'none';
+        } else {
+            movementElement.style.display = 'block';
+            movementElement.textContent = `Movement: ${movement}`;
+        }
         
         this.updateHeartButton();
         
@@ -497,13 +525,37 @@ class ArtQuiz {
             collectionImage.alt = `Image failed to load: ${artwork.title}`;
         };
         collectionImage.src = artwork.imageUrl || artwork.image_url;
-        document.getElementById('collection-title').textContent = artwork.title || 'Untitled';
+        document.getElementById('collection-title').textContent = artwork.title || artwork.artwork || 'Untitled';
         document.getElementById('collection-artist').textContent = `Artist: ${artwork.artist}`;
         document.getElementById('collection-year').textContent = `Year: ${artwork.year || 'Unknown'}`;
         document.getElementById('collection-museum').textContent = `Museum: ${artwork.museum || artwork.collection || 'Unknown'}`;
-        document.getElementById('collection-art-type').textContent = `Type: ${artwork.art_type || 'Unknown'}`;
-        document.getElementById('collection-material').textContent = `Material: ${artwork.material || 'Unknown'}`;
-        document.getElementById('collection-genre').textContent = `Genre: ${artwork.genre || 'Unknown'}`;
+        
+        const collectionArtTypeElement = document.getElementById('collection-art-type');
+        const collectionArtType = artwork.art_type || 'Unknown';
+        if (collectionArtType === 'Unknown') {
+            collectionArtTypeElement.style.display = 'none';
+        } else {
+            collectionArtTypeElement.style.display = 'block';
+            collectionArtTypeElement.textContent = `Type: ${collectionArtType}`;
+        }
+        
+        const collectionMaterialElement = document.getElementById('collection-material');
+        const collectionMaterial = artwork.material || 'Unknown';
+        if (collectionMaterial === 'Unknown') {
+            collectionMaterialElement.style.display = 'none';
+        } else {
+            collectionMaterialElement.style.display = 'block';
+            collectionMaterialElement.textContent = `Material: ${collectionMaterial}`;
+        }
+        
+        const collectionMovementElement = document.getElementById('collection-movement');
+        const collectionMovement = artwork.movement || 'Unknown';
+        if (collectionMovement === 'Unknown') {
+            collectionMovementElement.style.display = 'none';
+        } else {
+            collectionMovementElement.style.display = 'block';
+            collectionMovementElement.textContent = `Movement: ${collectionMovement}`;
+        }
     }
 
     nextCollectionArtwork() {
@@ -764,12 +816,12 @@ function startGame(mode) {
     
     quiz = new ArtQuiz();
     quiz.selectedCategory = 'All';
-    quiz.dataSource = 'louvre';
+    quiz.dataSource = mode === 'editors' ? 'editors' : 'louvre';
     
     if (mode === 'quiz') {
         document.getElementById('quiz-selection-lifetime-score').textContent = lifetimeScore;
         document.getElementById('quiz-source-selection').style.display = 'block';
-    } else if (mode === 'browse') {
+    } else if (mode === 'browse' || mode === 'editors') {
         document.getElementById('browse-container').style.display = 'block';
         quiz.init('browse');
     } else if (mode === 'collection') {

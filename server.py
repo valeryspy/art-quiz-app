@@ -19,6 +19,16 @@ except Exception as e:
     print(f"Error loading wikidata artworks: {e}")
     wikidata_artworks = []
 
+# Load Editor's Choice artworks
+try:
+    editors_df = pd.read_csv('list_with_wikidata.csv')
+    editors_df = editors_df.fillna('')
+    editors_choice = editors_df.to_dict('records')
+    print(f"Loaded {len(editors_choice)} editor's choice artworks")
+except Exception as e:
+    print(f"Error loading editor's choice: {e}")
+    editors_choice = []
+
 # Simple user data storage (in production, use a proper database)
 USER_DATA_FILE = 'user_data.json'
 
@@ -50,17 +60,30 @@ def static_files(filename):
 
 @app.route('/api/artworks')
 def get_artworks():
+    source = request.args.get('source', 'all')
+    if source == 'editors':
+        return jsonify(editors_choice)
     return jsonify(wikidata_artworks)
 
 @app.route('/api/artists')
 def get_artists():
-    artists = list(set([artwork['artist'] for artwork in wikidata_artworks if artwork['artist']]))
+    source = request.args.get('source', 'all')
+    artworks = editors_choice if source == 'editors' else wikidata_artworks
+    artists = list(set([artwork['artist'] for artwork in artworks if artwork['artist']]))
     return jsonify(artists)
 
 @app.route('/api/categories')
 def get_categories():
     categories = list(set([artwork['category'] for artwork in wikidata_artworks if artwork['category']]))
     return jsonify(['All'] + categories)
+
+@app.route('/api/movements')
+def get_movements():
+    source = request.args.get('source', 'all')
+    artworks = editors_choice if source == 'editors' else wikidata_artworks
+    movements = list(set([artwork['movement'] for artwork in artworks if 'movement' in artwork and artwork['movement']]))
+    return jsonify(['All'] + sorted(movements))
+
 
 @app.route('/api/login', methods=['POST'])
 def login():

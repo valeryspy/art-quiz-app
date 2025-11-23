@@ -31,11 +31,13 @@
             <div id="mode-buttons">
                 <button id="quiz-mode-btn" onclick="startGame('quiz')">Quiz Mode</button>
                 <button id="browse-mode-btn" onclick="startGame('browse')">Browse Mode</button>
+                <button id="editors-choice-btn" onclick="startGame('editors')">Editor's Choice</button>
                 <button id="collection-mode-btn" onclick="startGame('collection')">My Collection</button>
             </div>
             <div id="mode-descriptions">
                 <p><strong>Quiz Mode:</strong> Guess the artist from the artwork</p>
                 <p><strong>Browse Mode:</strong> View artworks with all information displayed</p>
+                <p><strong>Editor's Choice:</strong> Curated selection of masterpieces</p>
                 <p><strong>My Collection:</strong> View your personal collection of saved artworks</p>
             </div>
 
@@ -72,7 +74,7 @@
                     <div id="hint-container">
                         <button id="fifty-fifty-btn" onclick="quiz.useFiftyFifty()">50/50</button>
                         <button id="year-hint-btn" onclick="quiz.showYearHint()">Year Hint</button>
-                        <button id="genre-hint-btn" onclick="quiz.showGenreHint()">Genre Hint</button>
+                        <button id="movement-hint-btn" onclick="quiz.showMovementHint()">Movement Hint</button>
                         <button id="museum-hint-btn" onclick="quiz.showMuseumHint()">Museum Hint</button>
                     </div>
                     <div id="options"></div>
@@ -105,9 +107,9 @@
                     <p id="browse-artist"></p>
                     <p id="browse-year"></p>
                     <p id="browse-collection"></p>
+                    <p id="browse-movement"></p>
                     <p id="browse-art-type"></p>
                     <p id="browse-material"></p>
-                    <p id="browse-genre"></p>
                 </div>
             </div>
             <div id="browse-navigation">
@@ -138,7 +140,7 @@
                         <p id="collection-museum"></p>
                         <p id="collection-art-type"></p>
                         <p id="collection-material"></p>
-                        <p id="collection-genre"></p>
+                        <p id="collection-movement"></p>
                     </div>
                 </div>
                 <div id="collection-navigation">

@@ -34,12 +34,12 @@
         "artwork_id": "wikidata_6064",
         "category": "Painting",
         "genre": "landscape painting",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Pierre%20Bonnard%20The%20Large%20Garden.jpg?width=400",
         "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Pierre%20Bonnard%20The%20Large%20Garden.jpg?width=400",
         "material": "oil paint",
         "museum": "Mus\u00e9e d'Orsay",
         "title": "The Large Garden",
-        "year": "1895",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Pierre%20Bonnard%20The%20Large%20Garden.jpg?width=400"
+        "year": "1895"
       },
       {
         "art_type": "painting",
@@ -47,12 +47,12 @@
         "artwork_id": "wikidata_3422",
         "category": "Painting",
         "genre": "landscape painting",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20signac%2C%20argini%20di%20fiume%2C%20la%20senna%20a%20herblay%2C%201889%2C%2002.JPG?width=400",
         "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20signac%2C%20argini%20di%20fiume%2C%20la%20senna%20a%20herblay%2C%201889%2C%2002.JPG?width=400",
         "material": "oil paint",
         "museum": "Mus\u00e9e d'Orsay",
         "title": "Banks of river Seine at Herblay",
-        "year": "1889",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20signac%2C%20argini%20di%20fiume%2C%20la%20senna%20a%20herblay%2C%201889%2C%2002.JPG?width=400"
+        "year": "1889"
       },
       {
         "art_type": "painting",
@@ -60,20 +60,59 @@
         "artwork_id": "wikidata_3410",
         "category": "Painting",
         "genre": "portrait",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/A.%20van%20Dyck%20Portrait%20of%20Nicolaes%20van%20der%20Borght%201625-1635.jpg?width=400",
         "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/A.%20van%20Dyck%20Portrait%20of%20Nicolaes%20van%20der%20Borght%201625-1635.jpg?width=400",
         "material": "oil paint",
         "museum": "Rijksmuseum",
         "title": "Portrait of Nicolaes van der Borght. Merchant of Antwerp",
-        "year": "1630",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/A.%20van%20Dyck%20Portrait%20of%20Nicolaes%20van%20der%20Borght%201625-1635.jpg?width=400"
+        "year": "1630"
+      },
+      {
+        "art_type": "painting",
+        "artist": "\u00c9douard Manet",
+        "artwork_id": "wikidata_6363",
+        "category": "Painting",
+        "genre": "portrait",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/%C3%89douard%20Manet%20-%20T%C3%AAte%20de%20Jeune%20Femme.jpg?width=400",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/%C3%89douard%20Manet%20-%20T%C3%AAte%20de%20Jeune%20Femme.jpg?width=400",
+        "material": "paper",
+        "museum": "Mus\u00e9e d'Orsay",
+        "title": "Head of a Young Woman (Ellen Andr\u00e9e)",
+        "year": "1878"
+      },
+      {
+        "art_type": "painting",
+        "artist": "Eug\u00e8ne Delacroix",
+        "artwork_id": "wikidata_1307",
+        "category": "Painting",
+        "genre": "genre art",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Delacroix%20-%20Lion%20Hunt%20-%201922.404%20-%20Art%20Institute%20of%20Chicago.jpg?width=400",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Delacroix%20-%20Lion%20Hunt%20-%201922.404%20-%20Art%20Institute%20of%20Chicago.jpg?width=400",
+        "material": "oil paint",
+        "museum": "Art Institute of Chicago",
+        "title": "La Chasse aux lions au Maroc",
+        "year": "1861"
+      },
+      {
+        "art_type": "painting",
+        "artist": "Pietro Longhi",
+        "artwork_id": "wikidata_11959",
+        "category": "Painting",
+        "genre": "Unknown",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Pietro%20Longhi%20-%20The%20Dance%20-%201932.52%20-%20Art%20Institute%20of%20Chicago.jpg?width=400",
+        "material": "oil paint",
+        "museum": "Art Institute of Chicago",
+        "title": "The Dance",
+        "year": "1750",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Pietro%20Longhi%20-%20The%20Dance%20-%201932.52%20-%20Art%20Institute%20of%20Chicago.jpg?width=400"
       }
     ],
     "quiz_history": [],
     "total_score": 0,
     "games_played": 0,
     "quiz_stats": {
-      "correct": 0,
-      "total": 0
+      "correct": 4,
+      "total": 5
     }
   }
 }

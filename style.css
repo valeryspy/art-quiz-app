@@ -246,7 +246,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-#quiz-mode-btn, #browse-mode-btn, #collection-mode-btn, #all-artworks-btn, #my-collection-quiz-btn {
+#quiz-mode-btn, #browse-mode-btn, #editors-choice-btn, #collection-mode-btn, #all-artworks-btn, #my-collection-quiz-btn {
     padding: 15px 30px;
     font-size: 18px;
     border: none;
@@ -271,6 +271,15 @@ h1 {
 
 #browse-mode-btn:hover {
     background: #218838;
+}
+
+#editors-choice-btn {
+    background: #fd7e14;
+    color: white;
+}
+
+#editors-choice-btn:hover {
+    background: #e8590c;
 }
 
 #collection-mode-btn {
@@ -419,14 +428,14 @@ h1 {
     font-weight: bold;
 }
 
-#browse-year, #browse-collection, #browse-art-type, #browse-material, #browse-genre,
-#collection-year, #collection-museum, #collection-art-type, #collection-material, #collection-genre {
+#browse-year, #browse-collection, #browse-material, #browse-genre,  #browse-movement,
+#collection-year, #collection-museum, #collection-art-type, #collection-material, #collection-genre, #collection-movement {
     font-size: 1.2em;
     color: #666;
     margin-bottom: 8px;
 }
 
-#browse-material, #browse-genre, #collection-material, #collection-genre {
+#browse-material, #browse-genre, #collection-material, #collection-genre, #browse-art-type {
     font-size: 1.1em;
     color: #888;
     font-style: italic;
