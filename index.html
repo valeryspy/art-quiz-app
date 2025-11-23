@@ -120,6 +120,47 @@
             <button id="browse-back-btn" onclick="backToMenu()">Back to Menu</button>
         </div>
         
+        <!-- Editor's Choice Mode -->
+        <div id="editors-choice-container" style="display: none;">
+            <h2>Editor's Choice - Master Artists</h2>
+            <div id="editors-artist-grid"></div>
+            <button id="editors-back-btn" onclick="backToMenu()">Back to Menu</button>
+        </div>
+        
+        <!-- Artist Profile -->
+        <div id="artist-profile-container" style="display: none;">
+            <button id="artist-back-btn" onclick="backToEditorsChoice()">← Back to Artists</button>
+            <div id="artist-profile">
+                <div id="artist-header">
+                    <img id="artist-image" src="" alt="Artist">
+                    <div id="artist-info">
+                        <h2 id="artist-name"></h2>
+                        <p id="artist-summary"></p>
+                        <a id="artist-wiki-link" href="" target="_blank">Read more on Wikipedia →</a>
+                    </div>
+                </div>
+                <h3>Artworks</h3>
+                <div id="artist-artworks-grid"></div>
+            </div>
+        </div>
+        
+        <!-- Artwork Detail -->
+        <div id="artwork-detail-container" style="display: none;">
+            <button id="artwork-back-btn" onclick="backToArtistProfile()">← Back to Artist</button>
+            <div id="artwork-detail">
+                <img id="detail-artwork-image" alt="Artwork">
+                <div id="detail-artwork-info">
+                    <h2 id="detail-artwork-title"></h2>
+                    <p id="detail-artwork-artist"></p>
+                    <p id="detail-artwork-year"></p>
+                    <p id="detail-artwork-museum"></p>
+                    <p id="detail-artwork-type"></p>
+                    <p id="detail-artwork-material"></p>
+                    <p id="detail-artwork-movement"></p>
+                </div>
+            </div>
+        </div>
+        
         <!-- My Collection Mode -->
         <div id="collection-container" style="display: none;">
             <div id="collection-empty" style="text-align: center; padding: 50px;">

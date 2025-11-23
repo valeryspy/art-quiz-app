@@ -9,6 +9,7 @@ class ArtQuiz {
         this.categories = [];
         this.movements = [];
         this.selectedCategory = 'All';
+        this.selectedArtist = null;
         this.fiftyFiftyUsed = false;
         this.mode = null;
         this.currentArtworkIndex = 0;
@@ -78,8 +79,14 @@ class ArtQuiz {
     }
     
     filterArtworks() {
-        // No filtering - use all artworks and shuffle them
-        this.filteredArtworks = [...this.artworks].sort(() => 0.5 - Math.random());
+        // Filter by selected artist if specified
+        if (this.selectedArtist) {
+            this.filteredArtworks = this.artworks.filter(artwork => 
+                artwork.artist === this.selectedArtist
+            ).sort(() => 0.5 - Math.random());
+        } else {
+            this.filteredArtworks = [...this.artworks].sort(() => 0.5 - Math.random());
+        }
     }
 
     async parseCSV(csvText) {
@@ -821,13 +828,155 @@ function startGame(mode) {
     if (mode === 'quiz') {
         document.getElementById('quiz-selection-lifetime-score').textContent = lifetimeScore;
         document.getElementById('quiz-source-selection').style.display = 'block';
-    } else if (mode === 'browse' || mode === 'editors') {
+    } else if (mode === 'browse') {
         document.getElementById('browse-container').style.display = 'block';
         quiz.init('browse');
+    } else if (mode === 'editors') {
+        document.getElementById('editors-choice-container').style.display = 'block';
+        showEditorsChoice();
     } else if (mode === 'collection') {
         document.getElementById('collection-container').style.display = 'block';
         quiz.init('collection');
     }
+}
+
+async function showEditorsChoice() {
+    const artists = [
+        'Leonardo da Vinci', 'Michelangelo', 'Raphael', 'Caravaggio', 'Titian',
+        'Sandro Botticelli', 'Rembrandt van Rijn', 'Johannes Vermeer', 'Peter Paul Rubens',
+        'Diego Velázquez', 'Francisco Goya', 'El Greco', 'Jean-Auguste-Dominique Ingres',
+        'Eugène Delacroix', 'Édouard Manet', 'Claude Monet', 'Pierre-Auguste Renoir',
+        'Vincent van Gogh', 'Paul Cézanne', 'Henri Matisse', 'Pablo Picasso',
+        'Wassily Kandinsky', 'Edgar Degas', 'Georges Seurat', 'Marc Chagall'
+    ];
+    
+    // Load artworks
+    const response = await fetch('/api/artworks?source=editors');
+    const artworks = await response.json();
+    
+    const grid = document.getElementById('editors-artist-grid');
+    grid.innerHTML = '';
+    
+    artists.forEach(artist => {
+        // Find first artwork by this artist
+        const artwork = artworks.find(a => a.artist === artist);
+        
+        const card = document.createElement('div');
+        card.className = 'artist-card';
+        card.onclick = () => browseArtistWorks(artist);
+        
+        if (artwork) {
+            const img = document.createElement('img');
+            img.src = artwork.image_url || artwork.imageUrl;
+            img.alt = artist;
+            img.onerror = () => img.style.display = 'none';
+            card.appendChild(img);
+        }
+        
+        const name = document.createElement('h3');
+        name.textContent = artist;
+        
+        card.appendChild(name);
+        grid.appendChild(card);
+    });
+}
+
+async function browseArtistWorks(artist) {
+    document.getElementById('editors-choice-container').style.display = 'none';
+    document.getElementById('artist-profile-container').style.display = 'block';
+    
+    // Load artist info
+    const infoResponse = await fetch(`/api/artist-info/${encodeURIComponent(artist)}`);
+    const artistInfo = await infoResponse.json();
+    
+    // Load artworks
+    const artworksResponse = await fetch('/api/artworks?source=editors');
+    const allArtworks = await artworksResponse.json();
+    const artistArtworks = allArtworks.filter(a => a.artist === artist);
+    
+    // Display artist info
+    document.getElementById('artist-name').textContent = artist;
+    document.getElementById('artist-summary').textContent = artistInfo.artist_summary || 'No summary available.';
+    document.getElementById('artist-wiki-link').href = artistInfo.wiki_link || '#';
+    document.getElementById('artist-image').src = 'https://via.placeholder.com/200x200?text=' + encodeURIComponent(artist);
+    
+    // Display artworks
+    const grid = document.getElementById('artist-artworks-grid');
+    grid.innerHTML = '';
+    
+    artistArtworks.forEach(artwork => {
+        const card = document.createElement('div');
+        card.className = 'artist-artwork-card';
+        card.onclick = () => showArtworkDetail(artwork, artist);
+        
+        const img = document.createElement('img');
+        img.src = artwork.image_url || artwork.imageUrl;
+        img.alt = artwork.title || artwork.artwork;
+        img.onerror = () => img.style.display = 'none';
+        
+        const title = document.createElement('p');
+        title.textContent = artwork.title || artwork.artwork || 'Untitled';
+        
+        card.appendChild(img);
+        card.appendChild(title);
+        grid.appendChild(card);
+    });
+}
+
+let currentArtistContext = null;
+
+function showArtworkDetail(artwork, artist) {
+    currentArtistContext = artist;
+    document.getElementById('artist-profile-container').style.display = 'none';
+    document.getElementById('artwork-detail-container').style.display = 'block';
+    
+    // Display artwork details
+    document.getElementById('detail-artwork-image').src = artwork.image_url || artwork.imageUrl;
+    document.getElementById('detail-artwork-title').textContent = artwork.title || artwork.artwork || 'Untitled';
+    document.getElementById('detail-artwork-artist').textContent = `Artist: ${artwork.artist}`;
+    document.getElementById('detail-artwork-year').textContent = `Year: ${artwork.year || 'Unknown'}`;
+    document.getElementById('detail-artwork-museum').textContent = `Museum: ${artwork.museum || artwork.location || 'Unknown'}`;
+    
+    const typeElement = document.getElementById('detail-artwork-type');
+    const artType = artwork.art_type || 'Unknown';
+    if (artType === 'Unknown') {
+        typeElement.style.display = 'none';
+    } else {
+        typeElement.style.display = 'block';
+        typeElement.textContent = `Type: ${artType}`;
+    }
+    
+    const materialElement = document.getElementById('detail-artwork-material');
+    const material = artwork.material || 'Unknown';
+    if (material === 'Unknown') {
+        materialElement.style.display = 'none';
+    } else {
+        materialElement.style.display = 'block';
+        materialElement.textContent = `Material: ${material}`;
+    }
+    
+    const movementElement = document.getElementById('detail-artwork-movement');
+    const movement = artwork.movement || 'Unknown';
+    if (movement === 'Unknown') {
+        movementElement.style.display = 'none';
+    } else {
+        movementElement.style.display = 'block';
+        movementElement.textContent = `Movement: ${movement}`;
+    }
+}
+
+function backToArtistProfile() {
+    document.getElementById('artwork-detail-container').style.display = 'none';
+    if (currentArtistContext) {
+        browseArtistWorks(currentArtistContext);
+    } else {
+        document.getElementById('artist-profile-container').style.display = 'block';
+    }
+}
+
+function backToEditorsChoice() {
+    document.getElementById('artist-profile-container').style.display = 'none';
+    document.getElementById('editors-choice-container').style.display = 'block';
 }
 
 function startQuiz(source) {
@@ -849,6 +998,9 @@ function backToMenu() {
     document.getElementById('quiz-container').style.display = 'none';
     document.getElementById('quiz-source-selection').style.display = 'none';
     document.getElementById('browse-container').style.display = 'none';
+    document.getElementById('editors-choice-container').style.display = 'none';
+    document.getElementById('artist-profile-container').style.display = 'none';
+    document.getElementById('artwork-detail-container').style.display = 'none';
     document.getElementById('collection-container').style.display = 'none';
     
     // Hide congratulations if visible
@@ -858,6 +1010,7 @@ function backToMenu() {
     }
     
     document.getElementById('mode-selection').style.display = 'block';
+    currentArtistContext = null;
     quiz = null;
 }
 

@@ -29,6 +29,26 @@ except Exception as e:
     print(f"Error loading editor's choice: {e}")
     editors_choice = []
 
+# Load Artist Info
+try:
+    artist_info_df = pd.read_csv('artist_info.csv')
+    artist_info_df = artist_info_df.fillna('')
+    artist_info = artist_info_df.to_dict('records')
+    print(f"Loaded {len(artist_info)} artist profiles")
+except Exception as e:
+    print(f"Error loading artist info: {e}")
+    artist_info = []
+
+# Load Artist Summary (detailed)
+try:
+    artist_summary_df = pd.read_csv('artist_summary.csv')
+    artist_summary_df = artist_summary_df.fillna('')
+    artist_summary = artist_summary_df.to_dict('records')
+    print(f"Loaded {len(artist_summary)} detailed artist summaries")
+except Exception as e:
+    print(f"Error loading artist summary: {e}")
+    artist_summary = []
+
 # Simple user data storage (in production, use a proper database)
 USER_DATA_FILE = 'user_data.json'
 
@@ -83,6 +103,22 @@ def get_movements():
     artworks = editors_choice if source == 'editors' else wikidata_artworks
     movements = list(set([artwork['movement'] for artwork in artworks if 'movement' in artwork and artwork['movement']]))
     return jsonify(['All'] + sorted(movements))
+
+@app.route('/api/artist-info/<artist_name>')
+def get_artist_info(artist_name):
+    # Try detailed summary first
+    for artist in artist_summary:
+        if artist['artist'] == artist_name:
+            return jsonify({
+                'artist': artist['artist'],
+                'artist_summary': artist['summary'],
+                'wiki_link': artist['wikipedia_link']
+            })
+    # Fall back to basic info
+    for artist in artist_info:
+        if artist['artist'] == artist_name:
+            return jsonify(artist)
+    return jsonify({'error': 'Artist not found'}), 404
 
 
 @app.route('/api/login', methods=['POST'])
