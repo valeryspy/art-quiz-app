@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Mode - Art Quiz{% endblock %}
+
+{% block content %}
+<div id="browse-container">
+    <div id="loading">Loading artworks...</div>
+    <div id="museum-selector">
+        <h3>Choose Museum:</h3>
+        <input type="text" id="museum-select" list="museum-list" placeholder="Type or select museum...">
+        <datalist id="museum-list"></datalist>
+    </div>
+    <div id="artist-selector">
+        <h3>Choose Artist:</h3>
+        <input type="text" id="artist-select" list="artist-list" placeholder="Type or select artist...">
+        <datalist id="artist-list"></datalist>
+    </div>
+    <div id="browse-artwork">
+        <img id="browse-image" alt="Artwork">
+        <div id="browse-info">
+            <h2 id="browse-title"></h2>
+            <p id="browse-artist"></p>
+            <p id="browse-year"></p>
+            <p id="browse-collection"></p>
+            <p id="browse-movement"></p>
+            <p id="browse-art-type"></p>
+            <p id="browse-material"></p>
+        </div>
+    </div>
+    <div id="browse-navigation">
+        <button id="prev-artwork-btn">Previous Artwork</button>
+        <button id="next-artwork-btn">Next Artwork</button>
+        <button id="add-to-collection-btn">♡ Add to Collection</button>
+    </div>
+    <button id="browse-back-btn">Back to Menu</button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/browse.js') }}"></script>
+{% endblock %}

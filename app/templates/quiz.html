@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz Mode - Art Quiz{% endblock %}
+
+{% block content %}
+<div id="quiz-source-selection">
+    <div id="quiz-lifetime-score">
+        <p>Your Lifetime Score: <span id="quiz-selection-lifetime-score">0</span></p>
+    </div>
+    <h2>Choose Quiz Source</h2>
+    <div id="quiz-source-buttons">
+        <button id="all-artworks-btn" data-source="all">All Artworks</button>
+        <button id="my-collection-quiz-btn" data-source="collection">My Collection</button>
+    </div>
+    <div id="quiz-source-descriptions">
+        <p><strong>All Artworks:</strong> Quiz from the entire museum collection</p>
+        <p><strong>My Collection:</strong> Quiz only from your saved artworks</p>
+    </div>
+    <button id="quiz-source-back-btn">Back to Menu</button>
+</div>
+
+<div id="quiz-container" style="display: none;">
+    <div id="loading">Loading artwork...</div>
+    <div id="quiz" style="display: none;">
+        <div id="artwork-container">
+            <img id="artwork-image" alt="Artwork">
+            <p id="artwork-info"></p>
+            <p id="artwork-medium"></p>
+        </div>
+        <div id="options-container">
+            <h3>Who is the artist?</h3>
+            <div id="hint-container">
+                <button id="fifty-fifty-btn">50/50</button>
+                <button id="year-hint-btn">Year Hint</button>
+                <button id="movement-hint-btn">Movement Hint</button>
+                <button id="museum-hint-btn">Museum Hint</button>
+            </div>
+            <div id="options"></div>
+        </div>
+        <div id="result" style="display: none;"></div>
+        <button id="next-btn" style="display: none;">Next Question</button>
+    </div>
+    <div id="score">
+        <div>Session Score: <span id="score-value">0</span></div>
+    </div>
+    <button id="quiz-back-btn">Back to Menu</button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+{% endblock %}

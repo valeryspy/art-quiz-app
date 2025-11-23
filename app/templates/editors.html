@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Editor's Choice - Art Quiz{% endblock %}
+
+{% block content %}
+<div id="editors-choice-container">
+    <h2>Editor's Choice - Master Artists</h2>
+    <div id="editors-artist-grid"></div>
+    <button id="editors-back-btn">Back to Menu</button>
+</div>
+
+<div id="artist-profile-container" style="display: none;">
+    <button id="artist-back-btn">← Back to Artists</button>
+    <div id="artist-profile">
+        <div id="artist-header">
+            <img id="artist-image" src="" alt="Artist">
+            <div id="artist-info">
+                <h2 id="artist-name"></h2>
+                <div id="artist-details">
+                    <span id="artist-years"></span>
+                    <span id="artist-country"></span>
+                    <span id="artist-movement"></span>
+                    <span id="artist-period"></span>
+                </div>
+                <p id="artist-summary"></p>
+                <a id="artist-wiki-link" href="" target="_blank">Read more on Wikipedia →</a>
+            </div>
+        </div>
+        <h3>Artworks</h3>
+        <div id="artist-artworks-grid"></div>
+    </div>
+</div>
+
+<div id="artwork-detail-container" style="display: none;">
+    <button id="artwork-back-btn">← Back to Artist</button>
+    <div id="artwork-detail">
+        <img id="detail-artwork-image" alt="Artwork">
+        <div id="detail-artwork-info">
+            <h2 id="detail-artwork-title"></h2>
+            <p id="detail-artwork-artist"></p>
+            <p id="detail-artwork-year"></p>
+            <p id="detail-artwork-museum"></p>
+            <p id="detail-artwork-type"></p>
+            <p id="detail-artwork-material"></p>
+            <p id="detail-artwork-movement"></p>
+            <a id="detail-artwork-wiki-link" href="" target="_blank" style="display: none;">Read more on Wikipedia →</a>
+        </div>
+    </div>
+    <button id="detail-add-to-collection-btn">♡ Add to Collection</button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/editors.js') }}"></script>
+{% endblock %}

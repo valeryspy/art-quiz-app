@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="login-screen">
+    <h2>Welcome to Art Quiz</h2>
+    <div id="login-form">
+        <input type="text" id="username-input" placeholder="Enter your username" maxlength="20">
+        <input type="password" id="password-input" placeholder="Enter your password" maxlength="50">
+        <button id="login-btn">Login</button>
+    </div>
+    <p class="login-note">Your progress and collection will be saved</p>
+</div>
+
+<div id="mode-selection" style="display: none;">
+    <div id="user-info">
+        <span id="welcome-user"></span>
+        <button id="logout-btn">Logout</button>
+    </div>
+    <h2>Choose Game Mode</h2>
+    <div id="mode-buttons">
+        <button id="quiz-mode-btn" data-mode="quiz">Quiz Mode</button>
+        <button id="browse-mode-btn" data-mode="browse">Browse Mode</button>
+        <button id="editors-choice-btn" data-mode="editors">Editor's Choice</button>
+        <button id="collection-mode-btn" data-mode="collection">My Collection</button>
+    </div>
+    <div id="mode-descriptions">
+        <p><strong>Quiz Mode:</strong> Guess the artist from the artwork</p>
+        <p><strong>Browse Mode:</strong> View artworks with all information displayed</p>
+        <p><strong>Editor's Choice:</strong> Curated selection of masterpieces</p>
+        <p><strong>My Collection:</strong> View your personal collection of saved artworks</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

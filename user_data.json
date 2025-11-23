@@ -4,97 +4,6 @@
     "collection": [
       {
         "art_type": "painting",
-        "artist": "Paul C\u00e9zanne",
-        "artwork_id": "wikidata_3072",
-        "category": "Painting",
-        "genre": "portrait",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20C%C3%A9zanne%20-%20The%20Cardplayer%20-%20Google%20Art%20Project.jpg?width=400",
-        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20C%C3%A9zanne%20-%20The%20Cardplayer%20-%20Google%20Art%20Project.jpg?width=400",
-        "material": "oil paint",
-        "museum": "Mus\u00e9e d'Orsay",
-        "title": "Le joueur de cartes (The Cardplayer)",
-        "year": "1890"
-      },
-      {
-        "art_type": "painting",
-        "artist": "Eug\u00e8ne Louis Boudin",
-        "artwork_id": "wikidata_3659",
-        "category": "Painting",
-        "genre": "marine art",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Boudin%20006.jpg?width=400",
-        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne%20Boudin%20006.jpg?width=400",
-        "material": "oil paint",
-        "museum": "Mus\u00e9e d'Orsay",
-        "title": "The mole of Deauville",
-        "year": "1869"
-      },
-      {
-        "art_type": "painting",
-        "artist": "Pierre Bonnard",
-        "artwork_id": "wikidata_6064",
-        "category": "Painting",
-        "genre": "landscape painting",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Pierre%20Bonnard%20The%20Large%20Garden.jpg?width=400",
-        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Pierre%20Bonnard%20The%20Large%20Garden.jpg?width=400",
-        "material": "oil paint",
-        "museum": "Mus\u00e9e d'Orsay",
-        "title": "The Large Garden",
-        "year": "1895"
-      },
-      {
-        "art_type": "painting",
-        "artist": "Paul Signac",
-        "artwork_id": "wikidata_3422",
-        "category": "Painting",
-        "genre": "landscape painting",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20signac%2C%20argini%20di%20fiume%2C%20la%20senna%20a%20herblay%2C%201889%2C%2002.JPG?width=400",
-        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Paul%20signac%2C%20argini%20di%20fiume%2C%20la%20senna%20a%20herblay%2C%201889%2C%2002.JPG?width=400",
-        "material": "oil paint",
-        "museum": "Mus\u00e9e d'Orsay",
-        "title": "Banks of river Seine at Herblay",
-        "year": "1889"
-      },
-      {
-        "art_type": "painting",
-        "artist": "Anthony van Dyck",
-        "artwork_id": "wikidata_3410",
-        "category": "Painting",
-        "genre": "portrait",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/A.%20van%20Dyck%20Portrait%20of%20Nicolaes%20van%20der%20Borght%201625-1635.jpg?width=400",
-        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/A.%20van%20Dyck%20Portrait%20of%20Nicolaes%20van%20der%20Borght%201625-1635.jpg?width=400",
-        "material": "oil paint",
-        "museum": "Rijksmuseum",
-        "title": "Portrait of Nicolaes van der Borght. Merchant of Antwerp",
-        "year": "1630"
-      },
-      {
-        "art_type": "painting",
-        "artist": "\u00c9douard Manet",
-        "artwork_id": "wikidata_6363",
-        "category": "Painting",
-        "genre": "portrait",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/%C3%89douard%20Manet%20-%20T%C3%AAte%20de%20Jeune%20Femme.jpg?width=400",
-        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/%C3%89douard%20Manet%20-%20T%C3%AAte%20de%20Jeune%20Femme.jpg?width=400",
-        "material": "paper",
-        "museum": "Mus\u00e9e d'Orsay",
-        "title": "Head of a Young Woman (Ellen Andr\u00e9e)",
-        "year": "1878"
-      },
-      {
-        "art_type": "painting",
-        "artist": "Pietro Longhi",
-        "artwork_id": "wikidata_11959",
-        "category": "Painting",
-        "genre": "Unknown",
-        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Pietro%20Longhi%20-%20The%20Dance%20-%201932.52%20-%20Art%20Institute%20of%20Chicago.jpg?width=400",
-        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Pietro%20Longhi%20-%20The%20Dance%20-%201932.52%20-%20Art%20Institute%20of%20Chicago.jpg?width=400",
-        "material": "oil paint",
-        "museum": "Art Institute of Chicago",
-        "title": "The Dance",
-        "year": "1750"
-      },
-      {
-        "art_type": "painting",
         "artist": "Leonardo da Vinci",
         "artist_id": "4f9b6c6861b4",
         "artwork": "Mona Lisa",
@@ -108,14 +17,46 @@
         "movement": "Italian Renaissance",
         "museum": "Salle des \u00c9tats, Louvre",
         "year": 1503
+      },
+      {
+        "art_type": "painting",
+        "artist": "Caravaggio",
+        "artist_id": "204f6137b921",
+        "artwork": "The Entombment of Christ",
+        "artwork_id": "91ff159a9a1c",
+        "category": "Painting",
+        "genre": "religious art",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/The%20Entombment%20of%20Christ-Caravaggio%20%28c.1602-3%29.jpg?width=400",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/The%20Entombment%20of%20Christ-Caravaggio%20%28c.1602-3%29.jpg?width=400",
+        "location": "Vatican Museums",
+        "material": "oil paint",
+        "movement": "Italian Baroque painting",
+        "museum": "Pinacoteca Vaticana",
+        "year": 1603
+      },
+      {
+        "art_type": "painting",
+        "artist": "Sandro Botticelli",
+        "artist_id": "e7d01fa8d73a",
+        "artwork": "The Birth of Venus",
+        "artwork_id": "e76c83d431a4",
+        "category": "Painting",
+        "genre": "nude",
+        "imageUrl": "http://commons.wikimedia.org/wiki/Special:FilePath/Sandro%20Botticelli%20-%20La%20nascita%20di%20Venere%20-%20Google%20Art%20Project%20-%20edited.jpg?width=400",
+        "image_url": "http://commons.wikimedia.org/wiki/Special:FilePath/Sandro%20Botticelli%20-%20La%20nascita%20di%20Venere%20-%20Google%20Art%20Project%20-%20edited.jpg?width=400",
+        "location": "Uffizi Gallery",
+        "material": "tempera",
+        "movement": "Renaissance",
+        "museum": "Uffizi Gallery - Room 11-12, Botticelli's, Florence, Italy",
+        "year": 1485
       }
     ],
     "quiz_history": [],
     "total_score": 0,
     "games_played": 0,
     "quiz_stats": {
-      "correct": 6,
-      "total": 9
+      "correct": 21,
+      "total": 29
     }
   }
 }
