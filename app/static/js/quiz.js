@@ -230,8 +230,11 @@ const quiz = new QuizGame();
 // Initialize
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const data = await API.get('/auth/profile');
-        AppState.setUser(data.username, data.profile);
+        const [data, artworks] = await Promise.all([
+            API.get('/auth/profile'),
+            API.get('/api/artworks')
+        ]);
+        await AppState.setUser(data.username, data.profile, artworks);
         document.getElementById('quiz-selection-lifetime-score').textContent = AppState.lifetimeScore;
     } catch {
         navigateTo('/');

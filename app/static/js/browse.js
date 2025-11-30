@@ -174,7 +174,8 @@ const browse = new BrowseMode();
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const data = await API.get('/auth/profile');
-        AppState.setUser(data.username, data.profile);
+        const artworks = await API.get('/api/artworks');
+        await AppState.setUser(data.username, data.profile, artworks);
         browse.init();
     } catch {
         navigateTo('/');

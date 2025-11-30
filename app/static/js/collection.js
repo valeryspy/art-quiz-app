@@ -108,8 +108,11 @@ const collection = new CollectionMode();
 // Initialize
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const data = await API.get('/auth/profile');
-        AppState.setUser(data.username, data.profile);
+        const [profileData, artworksData] = await Promise.all([
+            API.get('/auth/profile'),
+            API.get('/api/artworks')
+        ]);
+        await AppState.setUser(profileData.username, profileData.profile, artworksData);
         collection.init();
     } catch {
         navigateTo('/');

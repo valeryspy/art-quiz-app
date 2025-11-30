@@ -176,8 +176,11 @@ const editors = new EditorsChoice();
 // Initialize
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const data = await API.get('/auth/profile');
-        AppState.setUser(data.username, data.profile);
+        const [data, artworks] = await Promise.all([
+            API.get('/auth/profile'),
+            API.get('/api/artworks')
+        ]);
+        await AppState.setUser(data.username, data.profile, artworks);
         editors.init();
     } catch {
         navigateTo('/');

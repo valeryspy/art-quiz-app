@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, session, current_app
 from app.models import DataLoader, UserManager
+from db_auth import get_user_data, update_user_data, add_to_collection, remove_from_collection
 
 api_bp = Blueprint('api', __name__)
 user_manager = UserManager()
@@ -54,36 +55,60 @@ def get_artist_info(artist_name):
     
     return jsonify({**artist_data, 'is_html': False})
 
-@api_bp.route('/user/collection', methods=['GET', 'POST'])
+@api_bp.route('/user/collection', methods=['GET'])
 def user_collection():
-    if 'username' not in session:
+    if 'user_id' not in session:
         return jsonify({'error': 'Not logged in'}), 401
     
-    username = session['username']
+    user_id = session['user_id']
+    user_data = get_user_data(user_id)
+    # Returns array of artwork_ids
+    return jsonify(user_data.get('collection', []))
+
+@api_bp.route('/user/collection/add', methods=['POST'])
+def add_artwork():
+    if 'user_id' not in session:
+        return jsonify({'error': 'Not logged in'}), 401
     
-    if request.method == 'GET':
-        user_profile = user_manager.get_user(username)
-        return jsonify(user_profile['collection'])
-    
+    user_id = session['user_id']
     data = request.get_json()
-    collection = data.get('collection', [])
-    user_manager.create_or_update_user(username, collection=collection)
-    return jsonify({'success': True})
+    artwork_id = data.get('artwork_id')
+    
+    if not artwork_id:
+        return jsonify({'error': 'artwork_id required'}), 400
+    
+    success = add_to_collection(user_id, artwork_id)
+    return jsonify({'success': success})
+
+@api_bp.route('/user/collection/remove', methods=['POST'])
+def remove_artwork():
+    if 'user_id' not in session:
+        return jsonify({'error': 'Not logged in'}), 401
+    
+    user_id = session['user_id']
+    data = request.get_json()
+    artwork_id = data.get('artwork_id')
+    
+    if not artwork_id:
+        return jsonify({'error': 'artwork_id required'}), 400
+    
+    success = remove_from_collection(user_id, artwork_id)
+    return jsonify({'success': success})
 
 @api_bp.route('/user/quiz-result', methods=['POST'])
 def save_quiz_result():
-    if 'username' not in session:
+    if 'user_id' not in session:
         return jsonify({'error': 'Not logged in'}), 401
     
-    username = session['username']
+    user_id = session['user_id']
     data = request.get_json()
     correct = data.get('correct', 0)
     total = data.get('total', 0)
     
-    user = user_manager.get_user(username)
-    stats = user.get('quiz_stats', {'correct': 0, 'total': 0})
+    user_data = get_user_data(user_id)
+    stats = user_data.get('quiz_stats', {'correct': 0, 'total': 0})
     stats['correct'] += correct
     stats['total'] += total
     
-    user_manager.create_or_update_user(username, quiz_stats=stats)
+    update_user_data(user_id, {'quiz_stats': stats})
     return jsonify({'success': True})

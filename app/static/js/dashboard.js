@@ -1,8 +1,11 @@
 // Check login status on load
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const data = await API.get('/auth/profile');
-        AppState.setUser(data.username, data.profile);
+        const [data, artworks] = await Promise.all([
+            API.get('/auth/profile'),
+            API.get('/api/artworks')
+        ]);
+        await AppState.setUser(data.username, data.profile, artworks);
         document.getElementById('welcome-user').textContent = `Welcome, ${data.username}!`;
         hideElement('login-screen');
         showElement('mode-selection');
@@ -23,14 +26,22 @@ document.getElementById('login-btn').addEventListener('click', async () => {
     }
     
     try {
-        const data = await API.post('/auth/login', { username, password });
-        AppState.setUser(data.username, data.profile);
+        const [data, artworks] = await Promise.all([
+            API.login(username, password),
+            API.get('/api/artworks')
+        ]);
+        await AppState.setUser(data.username, data.profile, artworks);
         document.getElementById('welcome-user').textContent = `Welcome, ${username}!`;
         hideElement('login-screen');
         showElement('mode-selection');
     } catch (error) {
-        alert('Login failed. Please try again.');
+        alert('Login failed: ' + error.message);
     }
+});
+
+// Register
+document.getElementById('register-btn').addEventListener('click', () => {
+    navigateTo('/register');
 });
 
 // Logout
@@ -59,5 +70,11 @@ document.querySelectorAll('#mode-buttons button').forEach(btn => {
 document.getElementById('password-input').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         document.getElementById('login-btn').click();
+    }
+});
+
+document.getElementById('username-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        document.getElementById('password-input').focus();
     }
 });
